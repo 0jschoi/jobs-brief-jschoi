@@ -1,0 +1,1335 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>진선 님 채용공고 브리핑</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 한 장의 통근 지도 위에 오늘 공고를 번호로 찍고, 아래에 공고별 카드(통근 띠 + 기업분석)를 쌓는다 */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --ink:#15202b; --muted:#5b6876; --line:#d9e0e7;
+  --line1:#0052a4;           /* 수도권 전철 1호선 색 */
+  --steel:#c4511d;           /* 남자친구 직장(제철소) */
+  --home:#2f7d4f;            /* 집 후보 */
+  --job:#15202b;
+  --hi:#1f6f43; --mid:#8a6a12; --hi-bg:#e3f2e8; --mid-bg:#f6eed6;
+  --river:#cfe0ee; --grid:#e8edf2; --bad:#b3261e; --bad-bg:#fbe4e2;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1418; --surface:#172027; --ink:#e7edf2; --muted:#9aa8b5; --line:#2a3741;
+  --line1:#5b9be0; --steel:#ef8a55; --home:#5fc28a; --job:#e7edf2;
+  --hi:#7fd6a1; --mid:#e3c46b; --hi-bg:#17352a; --mid-bg:#3a3117;
+  --river:#1d3346; --grid:#1c262e; --bad:#f2958c; --bad-bg:#3d1e1c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1418; --surface:#172027; --ink:#e7edf2; --muted:#9aa8b5; --line:#2a3741;
+  --line1:#5b9be0; --steel:#ef8a55; --home:#5fc28a; --job:#e7edf2;
+  --hi:#7fd6a1; --mid:#e3c46b; --hi-bg:#17352a; --mid-bg:#3a3117;
+  --river:#1d3346; --grid:#1c262e; --bad:#f2958c; --bad-bg:#3d1e1c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1{font-size:1.6rem;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:1.15rem;margin:0;text-wrap:balance}
+h3{font-size:.8rem;margin:0;color:var(--muted);letter-spacing:.06em;font-weight:600}
+p{margin:0}
+a{color:var(--line1)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--line1);outline-offset:2px}
+.sub{color:var(--muted);font-size:.9rem}
+header{display:flex;flex-direction:column;gap:6px}
+.basis{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.85rem;color:var(--muted)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.mapbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mapbox .cap{padding:12px 16px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+.mapscroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;max-width:520px}
+.mapcommute{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:820px){.mapcommute{grid-template-columns:1fr}}
+.mapcommute .commute{grid-template-columns:1fr}
+.sect{display:flex;flex-direction:column;gap:8px}
+.chk{width:100%;border-collapse:collapse;font-size:.9rem}
+.chk td{padding:7px 8px;border-top:1px solid var(--line);vertical-align:top}
+.chk td:first-child{width:96px;white-space:nowrap}
+.chk .note{color:var(--muted);font-size:.85rem}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.tag.good{background:var(--hi-bg);color:var(--hi)}
+.tag.mid{background:var(--mid-bg);color:var(--mid)}
+.tag.bad{background:var(--bad-bg);color:var(--bad)}
+.tag.unk{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.overview{width:100%;border-collapse:collapse;font-size:.88rem;min-width:760px}
+.overview th{text-align:left;font-size:.75rem;color:var(--muted);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.overview td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.overview tr.row{cursor:pointer}
+.overview tr.row:hover td{background:var(--bg)}
+.overview .co{font-weight:600}
+.overview .num2{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+details.card>summary{list-style:none;cursor:pointer}
+details.card>summary::-webkit-details-marker{display:none}
+details.card[open]>summary{margin-bottom:4px}
+.chev{margin-left:auto;flex:none;color:var(--muted);font-size:.8rem;white-space:nowrap}
+details.card[open] .chev .o{display:none} details.card:not([open]) .chev .c{display:none}
+.certs summary{cursor:pointer;font-size:.88rem;color:var(--line1)}
+.certs .chk{max-width:640px;margin-top:6px}
+.salary{display:flex;flex-direction:column;gap:4px;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.salary .min{font-family:var(--f-mono);font-size:1.25rem}
+.expline{background:var(--bg);border-radius:8px;padding:10px 14px;font-size:.92rem}
+.gap{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:18px}
+.gapitem{display:flex;flex-direction:column;gap:6px;padding-top:14px;border-top:1px solid var(--line)}
+.gapitem ul,.recs{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.gapitem .seen{font-size:.88rem;color:var(--muted)}
+.when{font-size:.75rem;font-weight:600;color:var(--line1)}
+svg.map{display:block;width:100%;height:auto}
+.daytabs{display:flex;flex-wrap:wrap;gap:8px}
+.daytabs button{font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.daytabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.summary{display:flex;flex-direction:column;gap:10px}
+.jobs{display:flex;flex-direction:column;gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
+.card.sel{border-color:var(--line1);box-shadow:0 0 0 1px var(--line1)}
+.top{display:flex;gap:14px;align-items:flex-start}
+.num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--job);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-size:.9rem}
+.top .t{min-width:0;display:flex;flex-direction:column;gap:4px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;color:var(--muted)}
+.pill{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px}
+.pill.상{background:var(--hi-bg);color:var(--hi)} .pill.중{background:var(--mid-bg);color:var(--mid)}
+.due{font-weight:600;color:var(--steel)}
+.commute{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.leg{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.leg .who{font-size:.78rem;color:var(--muted);letter-spacing:.04em;font-weight:600}
+.leg .min{font-family:var(--f-mono);font-size:1.35rem;font-variant-numeric:tabular-nums}
+.leg .min small{font-family:var(--f-body);font-size:.8rem;color:var(--muted);margin-left:4px}
+.strip{display:flex;align-items:center;gap:6px;font-size:.8rem;flex-wrap:wrap}
+.strip .seg{height:6px;border-radius:3px;flex:1 1 40px;min-width:24px}
+.strip .lbl{white-space:nowrap}
+.analysis{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 24px}
+.analysis div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.analysis p{font-size:.92rem}
+.fitbox{background:var(--bg);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.links{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.85rem}
+.homes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.homes .lab{font-size:.8rem;color:var(--muted);font-weight:600;margin-right:4px}
+.homes button{font:inherit;font-size:.85rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.homes button[aria-pressed="true"]{background:var(--home);border-color:var(--home);color:var(--surface)}
+.homes button .rec{font-size:.72rem;margin-left:4px;opacity:.85}
+.homewhy{font-size:.88rem;color:var(--muted)}
+.others{font-size:.85rem;color:var(--muted)}
+.empty{color:var(--muted)}
+footer{font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>진선 님 채용공고 브리핑</h1>
+    <p class="sub" id="asof"></p>
+    <p class="sub" id="profile"></p>
+    <details class="certs"><summary>내 자격증 보기</summary><table class="chk" id="certs"></table></details>
+    <div class="basis">
+      <span><span class="dot" style="background:var(--home)"></span>집 후보 (회사마다 추천)</span>
+      <span><span class="dot" style="background:var(--steel)"></span>남자친구 직장: 현대제철 인천공장 (고정)</span>
+      <span><span class="dot" style="background:var(--line1)"></span>1호선</span>
+      <span><span class="dot" style="background:var(--job)"></span>공고 회사</span>
+    </div>
+  </header>
+
+  <nav class="daytabs" id="days" aria-label="날짜 선택"></nav>
+
+  <p class="sub">집은 아직 정하지 않았으니, 회사마다 두 사람 모두 출근이 편한 동네를 추천합니다. 기준은 남자친구 자차 30분 이내, 내 출근 대중교통 1시간 안팎, 두 사람 시간이 고르게 나뉘는 곳입니다. 카드의 동네 버튼을 누르면 다른 동네 기준 시간과 지도로 바뀝니다. 회사마다 카드 안에 지도가 있습니다. 위치는 실제 좌표이고 지도는 단순화한 그림입니다. 통근 시간은 평일 오전 8시 출발 기준 추정치이니 네이버지도 링크로 실제 경로를 확인해 보세요.</p>
+
+
+  <section class="summary">
+    <h2 id="daytitle"></h2>
+    <div class="tablewrap"><table class="overview" id="overview"></table></div>
+    <p class="sub">행을 누르면 아래 상세 카드가 열립니다.</p>
+    <p class="others" id="others"></p>
+  </section>
+
+  <section class="jobs" id="jobs"></section>
+
+  <section class="gap" id="gap" aria-label="부족한 점과 보완 방법"></section>
+
+  <footer>공고는 잡코리아 공개 검색(로그인 없음)으로 찾았습니다. 기업 정보는 각 카드의 출처 기사 기준이며, [추정]은 제 판단입니다.</footer>
+</div>
+
+<script id="data" type="application/json">
+{
+ "partner": {
+  "name": "현대제철 인천공장",
+  "lat": 37.4862,
+  "lon": 126.6368
+ },
+ "days": [
+  {
+   "date": "2026-10-23",
+   "label": "10월 23일 (금)",
+   "excluded": "원문을 확인하고 뺀 공고: 한화에어로스페이스 해양·에너지 사업개발(경력 10년 이상 필수), 한화에어로스페이스 LNG 사업개발(LNG 투자·PF 경력 5년 필수), LS엠트론 기술기획(기계·산업공학 전공 필수). 처음부터 조건이 안 맞아 뺀 공고: 에코프로(청주), 헤리트(소규모), 에프앤비네트웍스(중소기업).",
+   "jobs": [
+    {
+     "fit": "상",
+     "company": "금호석유화학",
+     "size": "대기업 · 코스피 상장",
+     "title": "전략기획 상시 인재풀 등록",
+     "exp": "관련 경력 2년 이상",
+     "deadline": "상시 (마감 없음)",
+     "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50078127",
+     "place": "서울 중구 청계천로 100 (종각·을지로입구역)",
+     "lat": 37.5672,
+     "lon": 126.989,
+     "homeOpts": [
+      {
+       "home": "bupyeong",
+       "transit": {
+        "min": 61,
+        "route": "부평역 → 1호선 급행 → 종각역 → 도보 7분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          51,
+          "line1"
+         ],
+         [
+          "도보",
+          7,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "60~75",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "bucheon",
+       "transit": {
+        "min": 52,
+        "route": "부천역 → 1호선 급행 → 종각역 → 도보 7분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          42,
+          "line1"
+         ],
+         [
+          "도보",
+          7,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "55~70",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "juan",
+       "transit": {
+        "min": 68,
+        "route": "주안역 → 1호선 급행 → 종각역 → 도보 7분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          58,
+          "line1"
+         ],
+         [
+          "도보",
+          7,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "65~80",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      }
+     ],
+     "homeWhy": "부평은 남자친구 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 남자친구 30분)입니다.",
+     "expCheck": "요구 2년 이상 → 기획 경력 4년 4개월로 충족합니다. 오늘 공고 중 연차 요건이 가장 여유 있습니다.",
+     "duties": [
+      [
+       "회사의 중장기 전략 수립",
+       "강점",
+       "KSTAR 20년 로드맵, 충남 해양산업 10년 전략을 직접 설계했습니다."
+      ],
+      [
+       "신규사업·M&A 검토, 조직·규정 관리, 투자 심의",
+       "연결 가능",
+       "B/C·타당성 분석은 투자 심의와 같은 뿌리입니다. M&A 실무는 없습니다."
+      ],
+      [
+       "전략 실행·검토를 위한 성과관리(PM)",
+       "강점",
+       "복합빔 5대 KPI, KSTAR 성과지표 체계를 만들었습니다."
+      ],
+      [
+       "투자 및 비용예산 관리, 조직문화 관리",
+       "강점",
+       "1.8조 KSTAR 예산 설계, 연 46.5억 프로젝트 손익·현금흐름 관리 경험이 있습니다."
+      ],
+      [
+       "동반성장 등 대외 업무",
+       "연결 가능",
+       "정부·지자체·전문가위원회 대응 경험으로 설명할 수 있습니다."
+      ],
+      [
+       "공시·이사회·주주총회 등 거버넌스, 국내외 IR",
+       "약함",
+       "상장사 공시·IR 경험은 없습니다."
+      ]
+     ],
+     "reqs": [
+      [
+       "4년제 대학 이상 졸업",
+       "충족",
+       "화학생명공학 학사"
+      ],
+      [
+       "지원 분야 관련 경력 24개월 이상(인턴·아르바이트 제외)",
+       "충족",
+       "기획 4년 4개월. 중부발전 인턴은 산입되지 않습니다."
+      ],
+      [
+       "해외여행 결격사유 없음",
+       "충족",
+       ""
+      ]
+     ],
+     "prefs": [
+      [
+       "공고에 우대사항 없음",
+       "",
+       ""
+      ]
+     ],
+     "biz": "합성고무·합성수지(ABS)·NB라텍스가 주력인 석유화학 회사입니다. 의료용 장갑 원료 NB라텍스는 세계 1위권입니다.",
+     "recent": "2026년 2분기 영업이익 약 1,803억(+177%) 전망이 나올 만큼 업황 대비 실적이 좋습니다.",
+     "vision": "포스코퓨처엠과 리튬메탈전지·CNT 도전재, CCUS, 재활용 ABS 등 배터리·친환경 소재로 사업을 넓히고 있습니다.",
+     "match": "주요업무 6개 중 4개가 진선 님 강점과 겹치고 연차 요건도 충족합니다. 화학 전공이라 산업 이해도 설명하기 쉽습니다. 마감이 없으니 바로 등록해 두는 걸 추천합니다.",
+     "risk": "인재풀 등록이라 결원이 생겨야 연락이 옵니다. 공시·IR은 약점이니 면접 전에 사업보고서를 읽어 두세요.",
+     "sources": [
+      [
+       "다음 뉴스 (2026.08)",
+       "https://v.daum.net/v/20260803133613120"
+      ]
+     ],
+     "salary": {
+      "range": "6,500~7,500만",
+      "basis": "직원 평균 7,315만, 신입 초봉 4,992만(자소설닷컴 기준). 6년차 경력 입사면 대리 말~과장 초 직급으로 보고 추정했습니다.",
+      "src": [
+       "자소설닷컴",
+       "https://jasoseol.com/companies/9594"
+      ]
+     },
+     "short": "연차 충족, 업무 6개 중 4개 강점"
+    },
+    {
+     "fit": "상",
+     "company": "동성케미컬",
+     "size": "중견 · 코스피 상장",
+     "title": "기획조정실 전략 실행·운영",
+     "exp": "기획 경력 6~9년, 학사 이상",
+     "deadline": "10/26(월) 23:59",
+     "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50184282",
+     "place": "서울 중구 서소문로 116 유원빌딩 (시청역 도보 5분)",
+     "lat": 37.5627,
+     "lon": 126.9727,
+     "homeOpts": [
+      {
+       "home": "bupyeong",
+       "transit": {
+        "min": 55,
+        "route": "부평역 → 1호선 급행 → 시청역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          47,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "60~75",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "bucheon",
+       "transit": {
+        "min": 46,
+        "route": "부천역 → 1호선 급행 → 시청역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          38,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "55~70",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "juan",
+       "transit": {
+        "min": 62,
+        "route": "주안역 → 1호선 급행 → 시청역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          54,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "65~80",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      }
+     ],
+     "homeWhy": "부평은 남자친구 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 남자친구 30분)입니다.",
+     "expCheck": "요구 '기획 업무 6~9년' → 기획만 세면 4년 4개월로 부족하고, 기계연 연구행정 2년을 넣으면 6년 4개월로 하한선에 걸칩니다. 서류에서 기계연 경력을 '정부 R&D 과제 예산·정산 관리'로 써야 합니다.",
+     "duties": [
+      [
+       "내부 사업·외부 환경 분석 및 경영진 보고",
+       "강점",
+       "PEST·SWOT 환경분석, 발주처·위원회 보고를 수없이 해 왔습니다."
+      ],
+      [
+       "그룹 단·중기 전략 수립 지원·검토 및 이행 관리",
+       "강점",
+       "중장기 로드맵 설계와 KPI 이행 관리 경험이 그대로 맞습니다."
+      ],
+      [
+       "그룹 사업 현황·이슈 분석·보고, 사업포트폴리오 최적화 실행 지원",
+       "연결 가능",
+       "경영기획 때 34개 프로젝트 손익을 보고 적자 사업을 관리한 경험으로 연결됩니다."
+      ],
+      [
+       "정기회의·투자심의 등 주요 회의체 운영 지원",
+       "강점",
+       "53명 분과위원회, 29회 회의를 직접 운영했습니다."
+      ]
+     ],
+     "reqs": [
+      [
+       "학사 이상",
+       "충족",
+       ""
+      ],
+      [
+       "기획 업무 경력 6년 이상 9년 이하",
+       "경계",
+       "기획 4년 4개월 + 기계연 2년 = 6년 4개월. 회사가 기계연 경력을 인정할지가 관건입니다."
+      ]
+     ],
+     "prefs": [
+      [
+       "상경계열 전공",
+       "미충족",
+       "화학생명공학. 전산회계 1급과 손익 관리 경험으로 보완해 쓰세요."
+      ],
+      [
+       "그룹사 협업 프로젝트 경험",
+       "연결 가능",
+       "다기관 공동 기획(지자체·연구기관·기업 32개사) 경험"
+      ],
+      [
+       "사업계획 수립 및 회의체 운영 경험",
+       "충족",
+       "전문가위원회 운영, 사업계획·예산 수립"
+      ],
+      [
+       "비즈니스 영어 중급 이상",
+       "충족",
+       "TOEIC Speaking IH 보유. 영어 면접에 대비하면 됩니다."
+      ]
+     ],
+     "biz": "폴리우레탄(PU)·EVA 소재 회사입니다. 러닝화 중창용 PU가 매출 절반 이상이고, 자회사 동성화인텍은 LNG선 초저온 단열재를 만듭니다.",
+     "recent": "석유화학 불황에도 매년 흑자를 냈고, 2023년 여수 석화 설비 70%를 정리했습니다. 2025년 인도네시아 6.7만 톤 공장을 가동했습니다.",
+     "vision": "친환경·고기능·에너지·바이오 4개 신사업을 2029년 매출 20%까지 키우겠다는 계획이라, 그룹 전략을 관리하는 기획조정실의 역할이 커질 것으로 보입니다 [추정].",
+     "match": "주요업무 4개 중 3개가 강점입니다. 업무 내용만 보면 오늘 공고 중 진선 님 경력과 가장 비슷한 자리입니다.",
+     "risk": "연차 하한선과 상경 우대가 걸립니다. 마감이 10/26(월)로 사흘 남았습니다.",
+     "sources": [
+      [
+       "MTN 기업 INSIDE (2025.09)",
+       "https://news.mtn.co.kr/news-detail/2025093016473121101"
+      ]
+     ],
+     "salary": {
+      "range": "5,500~6,500만",
+      "basis": "평균연봉 공개 자료를 찾지 못했습니다. 매출 3,871억·직원 587명 규모 상장 화학 중견사 수준으로 추정했습니다 [추정]. 면접 후 결정이라 협상 여지가 있습니다.",
+      "src": [
+       "캐치 기업정보",
+       "https://m.catch.co.kr/NCS/RecruitInfoDetails/569756"
+      ]
+     },
+     "short": "연차 하한선, 업무 4개 중 3개 강점"
+    },
+    {
+     "fit": "상",
+     "company": "어프로티움",
+     "size": "중견 · 비상장 (약 230명)",
+     "title": "수소 사업기획·신사업 담당",
+     "exp": "경력 5년 이상, 대졸",
+     "deadline": "11/14(토)",
+     "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50178889",
+     "place": "서울 중구 통일로 10 세브란스빌딩 20층 (서울역 도보)",
+     "lat": 37.556,
+     "lon": 126.9725,
+     "homeOpts": [
+      {
+       "home": "bupyeong",
+       "transit": {
+        "min": 52,
+        "route": "부평역 → 1호선 급행 → 서울역역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          44,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "60~75",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "bucheon",
+       "transit": {
+        "min": 43,
+        "route": "부천역 → 1호선 급행 → 서울역역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          35,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "55~70",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "juan",
+       "transit": {
+        "min": 59,
+        "route": "주안역 → 1호선 급행 → 서울역역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          51,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "65~80",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      }
+     ],
+     "homeWhy": "부평은 남자친구 자차 20분, 나는 1호선 한 번에 약 50분입니다. 이 목록에서 내 출근이 가장 짧은 서울 회사입니다.",
+     "expCheck": "요구 5년 이상 → 기계연 포함 6년 4개월로 충족, 기획만 세면 4년 4개월로 조금 부족합니다.",
+     "duties": [
+      [
+       "사업기획·신사업 (시장조사, 사업개발, 신사업 발굴, 전략기획)",
+       "강점",
+       "공고 키워드가 진선 님 경력(시장·수요조사, 신규 사업 기획, 타당성)과 그대로 겹칩니다."
+      ],
+      [
+       "상세 업무는 공고 페이지에 텍스트로 나오지 않음",
+       "확인 필요",
+       "잡코리아 공고를 직접 열어 상세요강 이미지를 확인해 주세요."
+      ]
+     ],
+     "reqs": [
+      [
+       "경력 5년 이상",
+       "충족",
+       "기계연 포함 6년 4개월 (기획만 4년 4개월)"
+      ],
+      [
+       "대졸 이상",
+       "충족",
+       ""
+      ],
+      [
+       "Excel·PowerPoint·Word",
+       "충족",
+       ""
+      ]
+     ],
+     "prefs": [
+      [
+       "공고에 우대사항 없음",
+       "",
+       ""
+      ]
+     ],
+     "biz": "1982년 덕양가스로 시작한 산업용 가스 회사로, 국내 최대 수소 제조업체입니다. 정유·석유화학 공정의 부생수소를 공급하고 액화탄산 생산능력도 업계 1위입니다.",
+     "recent": "2025년 울산시 예비수소전문기업에 선정됐고, 2026년 6월 정부 수송용 수소 수급 점검 대상에 포함됐습니다. 수소 정제 계열사 덕양에너젠은 2026년 초 코스닥에 상장했습니다.",
+     "vision": "수소 경제가 커질수록 공급망을 가진 회사의 역할이 커집니다. 다만 매출·이익 수치는 공개 자료로 확인하지 못했습니다.",
+     "match": "에너지(수소) 산업 + 신사업 기획 + 서울역 근무로 세 조건이 모두 맞습니다. 핵융합·에너지 기획 경험을 '에너지 신사업' 이야기로 연결하기 좋습니다.",
+     "risk": "비상장 중견이라 재무 정보가 적고, 상세 업무를 아직 확인하지 못했습니다. 본사는 울산이라 서울 조직 규모를 면접에서 확인하세요.",
+     "sources": [
+      [
+       "THE VC 기업정보",
+       "https://thevc.kr/approtium"
+      ]
+     ],
+     "salary": {
+      "range": "5,000~6,000만",
+      "basis": "잡플래닛 직원 입력 평균 3,580만(44건, 생산·현장직 포함이라 낮게 잡힘). 서울 본부 사업기획 경력직은 이보다 높게 보지만, 희망선 5,500만에 못 미칠 수 있습니다 [추정].",
+      "src": [
+       "잡플래닛",
+       "https://www.jobplanet.co.kr/companies/208316/salaries/어프로티움"
+      ]
+     },
+     "short": "연차 충족(기계연 포함), 수소 신사업"
+    },
+    {
+     "fit": "중",
+     "company": "동성케미컬",
+     "size": "중견 · 코스피 상장",
+     "title": "신사업개발본부 반도체 소재 신사업 개발",
+     "exp": "관련 경력 6~12년, 화학 계열 전공",
+     "deadline": "10/26(월) 23:59",
+     "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50184161",
+     "place": "서울 중구 서소문로 116 유원빌딩 (시청역 도보 5분)",
+     "lat": 37.5627,
+     "lon": 126.9727,
+     "homeOpts": [
+      {
+       "home": "bupyeong",
+       "transit": {
+        "min": 55,
+        "route": "부평역 → 1호선 급행 → 시청역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          47,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "60~75",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "bucheon",
+       "transit": {
+        "min": 46,
+        "route": "부천역 → 1호선 급행 → 시청역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          38,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "55~70",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "juan",
+       "transit": {
+        "min": 62,
+        "route": "주안역 → 1호선 급행 → 시청역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          54,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "65~80",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      }
+     ],
+     "homeWhy": "부평은 남자친구 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 남자친구 30분)입니다.",
+     "expCheck": "요구 '관련 경력 6~12년' → 기계연 포함 6년 4개월로 하한선입니다. 업무가 영업·사업개발 성격이라 기획 경력이 '관련 경력'으로 인정될지 불확실합니다.",
+     "duties": [
+      [
+       "반도체 전공정 소재 고객사·제품·시장 개발 및 사업 확장",
+       "약함",
+       "고객 영업·제품 개발 경험은 없습니다."
+      ],
+      [
+       "고객과 신뢰 기반 파트너 관계 구축",
+       "연결 가능",
+       "32개사 참여의향 확보, 61개 기관 수요 네트워크 경험"
+      ],
+      [
+       "화학 부문 신사업 국내외 파트너 발굴, M&A 대상 선별·인수 추진",
+       "연결 가능",
+       "파트너 발굴은 가능하지만 M&A 실무는 없습니다."
+      ],
+      [
+       "기술기업 오픈 이노베이션 진행, 기술기업 발굴·검토",
+       "강점",
+       "TRL·특허·기술동향 분석, 국산화 로드맵 작업이 그대로 쓰입니다."
+      ]
+     ],
+     "reqs": [
+      [
+       "화학 계열 전공 또는 이공계 + 화학기업 경력",
+       "충족",
+       "화학생명공학 학사"
+      ],
+      [
+       "관련 경력 6년 이상 12년 이하",
+       "경계",
+       "6년 4개월(기계연 포함). 사업개발 경력으로 보지 않을 수 있습니다."
+      ],
+      [
+       "비즈니스 영어 중급 이상",
+       "충족",
+       "TOEIC Speaking IH 보유. 영어 면접에 대비하면 됩니다."
+      ]
+     ],
+     "prefs": [
+      [
+       "신규 고객 또는 신규 제품 개발 경험",
+       "미충족",
+       "공공 신사업 기획 경험으로 대신 설명해야 합니다."
+      ]
+     ],
+     "biz": "폴리우레탄(PU)·EVA 소재 회사입니다. 러닝화 중창용 PU가 매출 절반 이상이고, 자회사 동성화인텍은 LNG선 초저온 단열재를 만듭니다.",
+     "recent": "2025년 인도네시아 공장 가동, 유기과산화물 라인 신설 등 고부가 소재로 옮겨 가고 있습니다.",
+     "vision": "반도체 소재는 4개 신사업 축의 연장선으로, 인수·제휴로 빠르게 진입하려는 단계로 보입니다 [추정].",
+     "match": "전공 요건은 확실히 맞고 기술기업 검토는 강점입니다. 다만 업무 중심이 고객 개발·M&A라 기획조정실 공고보다 덜 맞습니다.",
+     "risk": "1차 면접에 PT가 있습니다. 두 공고 동시 지원이 되는지 인재경영팀(recruit@idongsung.com)에 확인하세요.",
+     "sources": [
+      [
+       "MTN 기업 INSIDE (2025.09)",
+       "https://news.mtn.co.kr/news-detail/2025093016473121101"
+      ]
+     ],
+     "salary": {
+      "range": "5,500~6,500만",
+      "basis": "평균연봉 공개 자료를 찾지 못했습니다. 매출 3,871억·직원 587명 규모 상장 화학 중견사 수준으로 추정했습니다 [추정]. 면접 후 결정이라 협상 여지가 있습니다.",
+      "src": [
+       "캐치 기업정보",
+       "https://m.catch.co.kr/NCS/RecruitInfoDetails/569756"
+      ]
+     },
+     "short": "연차 하한선, 고객개발·M&A 중심"
+    },
+    {
+     "fit": "중",
+     "company": "한화에어로스페이스",
+     "size": "대기업 · 한화그룹",
+     "title": "해양솔루션부문 해운사업 전략기획",
+     "exp": "해운 분야 유관 경력 5년 이상",
+     "deadline": "10/31(토) 23:59",
+     "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50204559",
+     "place": "서울 중구 청계천로 86 한화빌딩 (종각역 도보 5분)",
+     "lat": 37.5688,
+     "lon": 126.9862,
+     "homeOpts": [
+      {
+       "home": "bupyeong",
+       "transit": {
+        "min": 59,
+        "route": "부평역 → 1호선 급행 → 종각역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          51,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "60~75",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "bucheon",
+       "transit": {
+        "min": 50,
+        "route": "부천역 → 1호선 급행 → 종각역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          42,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "55~70",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      },
+      {
+       "home": "juan",
+       "transit": {
+        "min": 66,
+        "route": "주안역 → 1호선 급행 → 종각역 → 도보 5분",
+        "transfers": "환승 없음",
+        "segs": [
+         [
+          "도보",
+          3,
+          "walk"
+         ],
+         [
+          "1호선",
+          58,
+          "line1"
+         ],
+         [
+          "도보",
+          5,
+          "walk"
+         ]
+        ]
+       },
+       "car": {
+        "min": "65~80",
+        "route": "경인고속도로 → 서울 도심 (출근 정체)"
+       }
+      }
+     ],
+     "homeWhy": "부평은 남자친구 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 남자친구 30분)입니다.",
+     "expCheck": "요구 '해운 분야 5년 이상' → 연차는 되지만 해운 분야 경력이 없어 요건 미충족입니다. 업무가 잘 맞아 도전 지원으로 분류했습니다.",
+     "duties": [
+      [
+       "글로벌 해운시장·경쟁·고객 동향 분석, 신규 사업 기회 발굴",
+       "연결 가능",
+       "시장·수요 분석 방법은 같고, 북극항로 해양 디지털 기획 경험이 있습니다."
+      ],
+      [
+       "해운사업 중장기 전략·연간 사업계획 수립, 전략과제 성과 관리",
+       "강점",
+       "중장기 전략, 사업계획, KPI 관리"
+      ],
+      [
+       "JV·전략적 제휴 등 신규 사업 검토, 사업성·리스크 분석",
+       "연결 가능",
+       "사업성(B/C)·리스크 분석은 강점, JV 실무는 없습니다."
+      ],
+      [
+       "유관부서 협업 주도·조율, 전략과제 진행 관리",
+       "강점",
+       "다기관·전문가위원회 조율"
+      ],
+      [
+       "경영진 의사결정용 Business Case·전략 분석·Executive Report 작성",
+       "강점",
+       "예타·투자심사 보고서가 곧 Business Case입니다."
+      ]
+     ],
+     "reqs": [
+      [
+       "학사 이상",
+       "충족",
+       ""
+      ],
+      [
+       "해운 분야 전략기획·사업기획·영업·Chartering·사업개발 유관 경력 5년 이상",
+       "미충족",
+       "해운 경력이 없습니다."
+      ],
+      [
+       "사업성·리스크 분석, 전략 자료 작성, 협업, 비즈니스 영어",
+       "충족",
+       "TOEIC Speaking IH 보유. 영어 면접에 대비하면 됩니다."
+      ]
+     ],
+     "prefs": [
+      [
+       "해운 신규 사업·비즈니스 모델 개발",
+       "미충족",
+       ""
+      ],
+      [
+       "글로벌 해운사·선주·화주와 국제 협업",
+       "미충족",
+       ""
+      ],
+      [
+       "Corporate Strategy·컨설팅·투자 경험",
+       "연결 가능",
+       "공공 전략 컨설팅 성격의 기획 경력"
+      ],
+      [
+       "MBA 등 경영·금융·전략 석사",
+       "미충족",
+       ""
+      ]
+     ],
+     "biz": "항공엔진·방산이 본업이고, 한화오션을 거느린 해양솔루션부문에서 조선·해운·LNG 사업을 키우고 있습니다.",
+     "recent": "2026년 8월 미국 LNG 컨트롤타워 '한화호라이즌 USA'를 세웠고, 해운·LNG·발전을 잇는 밸류체인을 만들고 있습니다.",
+     "vision": "방산·조선·에너지를 잇는 그룹 핵심 성장축이라 투자와 채용이 이어질 가능성이 큽니다. S&P 'A-' 등급입니다.",
+     "match": "주요업무 5개 중 3개가 강점이고 나머지도 연결됩니다. 해운 경력 요건만 걸리는 자리입니다.",
+     "risk": "필수 요건(해운 경력) 미충족이라 서류 통과 가능성은 낮게 봐야 합니다.",
+     "sources": [
+      [
+       "스마트투데이 (2026.08)",
+       "https://www.smarttoday.co.kr/ko-kr/articles/110745"
+      ]
+     ],
+     "salary": {
+      "range": "7,000~8,500만",
+      "basis": "2024년 사업보고서 기준 직원 평균 1억 1,800만(성과급 포함, 한화오션 편입 영향). 잡플래닛 직원 입력 7~8년차 약 5,200~5,500만은 기본급만 적은 경우가 많습니다. 과장 초 경력 입사로 추정했습니다 [추정].",
+      "src": [
+       "뉴데일리 (2025.07)",
+       "https://biz.newdaily.co.kr/site/data/html/2025/07/03/2025070300091.html"
+      ]
+     },
+     "short": "해운 경력 필수 미충족, 업무는 잘 맞음"
+    }
+   ]
+  }
+ ],
+ "homes": {
+  "dongincheon": {
+   "name": "동인천",
+   "lat": 37.4752,
+   "lon": 126.6327,
+   "pcar": 10,
+   "ptransit": "15분 (버스·도보)"
+  },
+  "juan": {
+   "name": "주안",
+   "lat": 37.4649,
+   "lon": 126.6802,
+   "pcar": 15,
+   "ptransit": "25분 (1호선 주안→동인천 + 도보)"
+  },
+  "bupyeong": {
+   "name": "부평",
+   "lat": 37.4895,
+   "lon": 126.7245,
+   "pcar": 20,
+   "ptransit": "35분 (1호선 부평→동인천 + 버스·도보)"
+  },
+  "bucheon": {
+   "name": "부천",
+   "lat": 37.484,
+   "lon": 126.7827,
+   "pcar": 30,
+   "ptransit": "45분 (1호선 부천→동인천 + 버스·도보)"
+  },
+  "songdo": {
+   "name": "송도",
+   "lat": 37.3863,
+   "lon": 126.6392,
+   "pcar": 25,
+   "ptransit": "45분 (인천1호선·버스)"
+  }
+ },
+ "profile": "기준 경력: 과학기술전략연구소 기획 4년 4개월(2022.06~) + 한국기계연구원 연구행정 2년(2015.09~2017.08, 학업 병행) = 총 6년 4개월. 화학생명공학 학사.",
+ "gap": {
+  "intro": "오늘 공고 5건과 원문 확인 후 뺀 3건, 총 8건의 요건을 모아 보면 부족한 점이 몇 가지로 모입니다. 위에서부터 영향이 큰 순서입니다.",
+  "items": [
+   {
+    "gap": "연차: 순수 기획 경력 4년 4개월",
+    "seen": "8건 중 6건이 5년 이상, 2건이 6년 이상을 요구합니다.",
+    "how": [
+     "기계연 2년을 '정부 R&D 과제 협약·예산·정산 관리'로 써서 총 6년 4개월을 기획 연관 경력으로 제시하세요.",
+     "경력기술서 첫 줄에 '기획 6년(기획 4년 4개월 + R&D 과제관리 2년)'처럼 계산식을 보여주면 인사담당자가 덜 깎습니다.",
+     "10년 이상 공고는 지원하지 말고, 5~6년 하한 공고는 지원하세요. 하한선 공고는 서류에서 바로 걸러지지 않는 경우가 많습니다."
+    ],
+    "when": "이번 주 (서류 수정)"
+   },
+   {
+    "gap": "M&A·JV·투자 실행 경험",
+    "seen": "금호석유화학, 동성케미컬 신사업, 한화 3건 모두 M&A·JV·투자 검토를 업무나 요건으로 적었습니다.",
+    "how": [
+     "B/C 분석을 'NPV·IRR 기반 투자 타당성 검토'로 바꿔 쓰세요(OCI 공고 분석 3장 참고).",
+     "재무모델링(DCF·IRR) 온라인 강의 하나를 듣고 엑셀 모델 1개를 직접 만들어 두세요. 면접에서 '할 줄 안다'를 보여줄 수 있습니다.",
+     "지원 회사의 실제 투자 사례(동성케미컬 인도네시아 공장, 한화 LNG 밸류체인) 하나를 골라 1장짜리 투자 검토 메모를 써 보세요. 면접 PT 재료가 됩니다."
+    ],
+    "when": "1~2개월"
+   },
+   {
+    "gap": "영어: 증빙은 있고 회화 면접 대비가 필요",
+    "seen": "동성케미컬 2건, 한화 3건, LS엠트론이 영어를 요건이나 우대로 적었습니다. TOEIC Speaking IH가 있어 서류 요건은 대부분 충족합니다.",
+    "how": [
+     "영문 경력 요약(5줄)과 1분 자기소개를 만들어 두세요. 한화·OCI처럼 영어 면접이나 AI 영어테스트가 있는 곳이 있습니다.",
+     "TOEIC Speaking 성적 유효기간(2년)을 확인하고, 만료가 가까우면 다시 보세요."
+    ],
+    "when": "지원 전"
+   },
+   {
+    "gap": "산업 도메인 경험 (화학·해운·수소)",
+    "seen": "해운 경력 필수(한화), 신규 고객·제품 개발 우대(동성), 상경 우대(동성)처럼 해당 산업 실무를 봅니다.",
+    "how": [
+     "지원하는 회사마다 산업 1장 요약(시장 규모, 경쟁사, 회사의 위치, 최근 투자)을 만들어 자소서와 면접에 쓰세요.",
+     "에너지 쪽은 KSTAR·핵융합 기획 경험을 '에너지 신사업 기획' 이야기로 묶으면 수소·전력 회사에 통합니다.",
+     "화학 쪽은 전공을 앞세우고, 반도체 신뢰성(JEDEC) 분석 경험을 소재 시장 이해로 연결하세요."
+    ],
+    "when": "지원할 때마다"
+   },
+   {
+    "gap": "재무·공시·IR 이해",
+    "seen": "금호석유화학(공시·이사회·IR), 동성케미컬(상경 우대)",
+    "how": [
+     "관심 회사 2~3곳의 사업보고서(DART)를 읽고 매출 구조와 투자 계획을 요약해 보세요.",
+     "재경관리사는 장기 과제로 두고, 당장은 전산회계 1급 + 46.5억 손익 관리 경험을 앞세우면 됩니다."
+    ],
+    "when": "2~3개월"
+   }
+  ],
+  "recs": [
+   "금호석유화학 인재풀은 마감이 없고 연차 요건도 충족하니 이번 주에 바로 등록하세요.",
+   "동성케미컬은 10/26(월) 마감입니다. 업무가 더 맞는 기획조정실을 우선으로 지원하고, 신사업 공고는 동시 지원이 되는지 먼저 확인하세요.",
+   "한화·SK·포스코 같은 대기업은 자사 채용 홈페이지에만 올리는 공고가 많습니다. 관심 회사 채용 사이트의 공고 알림을 켜 두세요.",
+   "헤드헌터(서치펌) 공고에 '대기업 계열 전략기획'이 자주 나옵니다. 잡코리아에 이력서를 공개로 두면 연락이 오니, 수정한 이력서를 반영해 두세요."
+  ]
+ },
+ "current": "현재 연봉 5,000만 원 · 희망 기본급 5,500만 원 이상",
+ "certs": [
+  [
+   "TOEIC Speaking IH",
+   "영어",
+   "기업들이 말하는 '비즈니스 영어 중급'은 대체로 충족합니다."
+  ],
+  [
+   "빅데이터분석기사",
+   "데이터",
+   "2026 취득. 업무 사례 1개와 묶어 쓰면 효과가 큽니다."
+  ],
+  [
+   "SQLD",
+   "데이터",
+   "2026 취득"
+  ],
+  [
+   "ADsP",
+   "데이터",
+   "2026 취득"
+  ],
+  [
+   "전산회계 1급",
+   "회계",
+   "2021.02 취득. 상경 우대 공고에서 보완 근거로 씁니다."
+  ],
+  [
+   "컴퓨터활용능력 1급",
+   "OA",
+   "2020.03 취득"
+  ],
+  [
+   "워드프로세서 2급 (2009)",
+   "OA",
+   "이력서에서 빼는 걸 권했던 항목입니다."
+  ]
+ ]
+}
+</script>
+
+<script>
+(function(){
+  const D = JSON.parse(document.getElementById('data').textContent);
+  const NS='http://www.w3.org/2000/svg';
+  const W=600,H=230,KX=0.79; // 경도 1도는 위도 1도의 약 0.79배 길이
+  const css=v=>`var(${v})`;
+  const L1=[["인천",37.4762,126.6168],["동인천",37.4752,126.6327],["주안",37.4649,126.6802],["부평",37.4895,126.7245],["부천",37.4840,126.7827],["역곡",37.4853,126.8115],["구로",37.5030,126.8819],["신도림",37.5088,126.8913],["영등포",37.5156,126.9073],["노량진",37.5141,126.9425],["용산",37.5299,126.9648],["서울역",37.5547,126.9707],["시청",37.5657,126.9769],["종각",37.5702,126.9831],["종로3가",37.5704,126.9921]];
+  const L1S=[["구로",37.5030,126.8819],["가산디지털단지",37.4815,126.8826],["석수",37.4351,126.9025],["관악",37.4192,126.9087],["안양",37.4019,126.9227],["명학",37.3843,126.9353],["금정",37.3722,126.9434]];
+  const NAMED=["동인천","주안","부평","부천","구로","영등포","용산","서울역","시청","종각","안양","금정"];
+  const RIVER=[[37.612,126.790],[37.592,126.822],[37.573,126.860],[37.552,126.885],[37.535,126.905],[37.528,126.930],[37.517,126.958],[37.509,126.982],[37.513,127.003],[37.524,127.030]];
+  const HW=[[37.4925,126.715],[37.495,126.78],[37.517,126.835],[37.527,126.88],[37.532,126.92],[37.552,126.955],[37.566,126.976]];
+
+  function miniMap(svg,j,H0,opt){
+    const pts=[[H0.lat,H0.lon],[D.partner.lat,D.partner.lon],[j.lat,j.lon]];
+    let la0=Math.min(...pts.map(p=>p[0])),la1=Math.max(...pts.map(p=>p[0]));
+    let lo0=Math.min(...pts.map(p=>p[1])),lo1=Math.max(...pts.map(p=>p[1]));
+    // 여백을 주고 화면 비율에 맞춰 범위를 넓힌다
+    let cy=(la0+la1)/2,cx=(lo0+lo1)/2,hl=(la1-la0)/2+0.02,hw=((lo1-lo0)/2+0.025)*KX;
+    const aspect=W/H; if(hw/hl<aspect) hw=hl*aspect; else hl=hw/aspect;
+    const LA0=cy-hl,LA1=cy+hl,LO0=cx-hw/KX,LO1=cx+hw/KX;
+    const X=lon=>(lon-LO0)/(LO1-LO0)*W, Y=lat=>(LA1-lat)/(LA1-LA0)*H;
+    const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e};
+    const txt=(x,y,str,a)=>{const t=el('text',Object.assign({x,y,'text-anchor':'middle','font-family':'IBM Plex Sans KR, sans-serif'},a));t.textContent=str;return t};
+    const halo={stroke:css('--surface'),'stroke-width':4,'paint-order':'stroke'};
+    svg.innerHTML='';
+    el('rect',{x:0,y:0,width:W,height:H,fill:css('--surface')});
+    const step=hl>0.08?0.05:0.02;
+    for(let lon=Math.ceil(LO0/step)*step;lon<LO1;lon+=step) el('line',{x1:X(lon),y1:0,x2:X(lon),y2:H,stroke:css('--grid'),'stroke-width':1});
+    for(let lat=Math.ceil(LA0/step)*step;lat<LA1;lat+=step) el('line',{x1:0,y1:Y(lat),x2:W,y2:Y(lat),stroke:css('--grid'),'stroke-width':1});
+    el('polyline',{points:RIVER.map(p=>X(p[1])+','+Y(p[0])).join(' '),fill:'none',stroke:css('--river'),'stroke-width':12,'stroke-linecap':'round','stroke-linejoin':'round'});
+    el('polyline',{points:HW.map(p=>X(p[1])+','+Y(p[0])).join(' '),fill:'none',stroke:css('--muted'),'stroke-width':1.5,'stroke-dasharray':'6 5',opacity:.6});
+    [L1,L1S].forEach(line=>el('polyline',{points:line.map(s=>X(s[2])+','+Y(s[1])).join(' '),fill:'none',stroke:css('--line1'),'stroke-width':4,'stroke-linejoin':'round','stroke-linecap':'round'}));
+    [...L1,...L1S.slice(1)].forEach(s=>{
+      const x=X(s[2]),y=Y(s[1]); if(x<-10||x>W+10||y<-10||y>H+10) return;
+      el('circle',{cx:x,cy:y,r:3,fill:css('--surface'),stroke:css('--line1'),'stroke-width':2});
+      if(NAMED.includes(s[0])) txt(x+5,y+15,s[0],Object.assign({fill:css('--muted'),'font-size':10,'text-anchor':'start'},halo));
+    });
+    // 경로: 집→남자친구 직장, 집→회사
+    const hx=X(H0.lon),hy=Y(H0.lat),px=X(D.partner.lon),py=Y(D.partner.lat),jx=X(j.lon),jy=Y(j.lat);
+    el('line',{x1:hx,y1:hy,x2:px,y2:py,stroke:css('--steel'),'stroke-width':2.5,'stroke-dasharray':'2 4','stroke-linecap':'round'});
+    el('line',{x1:hx,y1:hy,x2:jx,y2:jy,stroke:css('--ink'),'stroke-width':2.5,'stroke-dasharray':'2 4','stroke-linecap':'round'});
+    const pin=(x,y,color,label,up)=>{el('circle',{cx:x,cy:y,r:8,fill:color,stroke:css('--surface'),'stroke-width':2});
+      const anc=x>W-110?'end':(x<110?'start':'middle'), dx=anc==='end'?8:(anc==='start'?-8:0);
+      txt(x+dx,up?y-14:y+24,label,Object.assign({fill:css('--ink'),'font-size':12,'font-weight':600,'text-anchor':anc},halo));};
+    pin(px,py,css('--steel'),'남자친구 · 자차 '+H0.pcar+'분',false);
+    pin(hx,hy,css('--home'),'집 · '+H0.name,true);
+    pin(jx,jy,css('--job'),j.company+' · '+opt.transit.min+'분',true);
+  }
+
+  function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function naver(j,H0,mode){
+    const a=`${H0.lon},${H0.lat},${encodeURIComponent(H0.name+'역')},,`;
+    const b=`${j.lon},${j.lat},${encodeURIComponent(j.company)},,`;
+    return `https://map.naver.com/p/directions/${a}/${b}/-/${mode}`;
+  }
+  let day=0;
+  function render(){
+    const d=D.days[day];
+    document.getElementById('asof').textContent='최근 업데이트: '+D.days[0].label+' · 공고 '+D.days[0].jobs.length+'건';
+    document.getElementById('daytitle').textContent=d.label+' 공고 '+d.jobs.length+'건 (적합도 순)';
+    document.getElementById('others').textContent=d.excluded||'';
+    const box=document.getElementById('jobs');
+    if(!d.jobs.length){box.innerHTML='<p class="empty">이 날은 조건에 맞는 새 공고가 없었습니다.</p>';return}
+    box.innerHTML=d.jobs.map((j,i)=>`<details class="card" id="job${i}">
+        <summary class="top"><span class="num">${i+1}</span><div class="t">
+          <div class="meta"><span class="pill ${j.fit}">적합도 ${j.fit}</span><span>${esc(j.size)}</span>${j.salary?`<span>예상 연봉 ${esc(j.salary.range)}</span>`:''}</div>
+          <h2>${esc(j.company)} · ${esc(j.title)}</h2>
+          <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span><span class="due">마감 ${esc(j.deadline)}</span></div>
+        </div><span class="chev"><span class="o">펼치기 ▾</span><span class="c">접기 ▴</span></span></summary>
+        <div class="homes" role="group" aria-label="집 위치 선택"><span class="lab">집을 어디에 구하면</span>${j.homeOpts.map((o,k)=>`<button type="button" id="h${i}_${k}" data-i="${i}" data-k="${k}" aria-pressed="${k===0}">${esc(D.homes[o.home].name)}${k===0?'<span class="rec">추천</span>':''}</button>`).join('')}</div>
+        <p class="homewhy">${esc(j.homeWhy||'')}</p>
+        <div id="body${i}"></div>
+        ${j.salary?`<div class="salary"><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">입사하면 예상 연봉 (성과급 포함 추정, ${esc(D.current||'')})</span><span class="min">${esc(j.salary.range)}원</span><span class="sub">${esc(j.salary.basis)} <a href="${esc(j.salary.src[1])}" target="_blank" rel="noopener">출처: ${esc(j.salary.src[0])}</a></span></div>`:''}
+        <p class="expline"><strong>연차 체크</strong> · ${esc(j.expCheck||'')}</p>
+        <div class="sect"><h3>주요업무와 내 강점</h3>${table(j.duties)}</div>
+        <div class="analysis" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+          <div class="sect"><h3>자격요건 (필수)</h3>${table(j.reqs)}</div>
+          <div class="sect"><h3>우대사항</h3>${table(j.prefs)}</div>
+        </div>
+        <div class="analysis">
+          <div><h3>무슨 일을 하는 회사인가</h3><p>${esc(j.biz)}</p></div>
+          <div><h3>최근 실적과 움직임</h3><p>${esc(j.recent)}</p></div>
+          <div><h3>비전과 성장성</h3><p>${esc(j.vision)}</p></div>
+          <div><h3>주의할 점</h3><p>${esc(j.risk)}</p></div>
+        </div>
+        <div class="fitbox"><h3>나와 맞는 이유</h3><p>${esc(j.match)}</p></div>
+        <div class="links" id="links${i}"></div>
+      </details>`).join('');
+    overview(d);
+    d.jobs.forEach((j,i)=>{fill(j,i,0)});
+    box.querySelectorAll('.homes button').forEach(btn=>btn.addEventListener('click',()=>{
+      const i=+btn.dataset.i,k=+btn.dataset.k;
+      btn.parentNode.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));
+      fill(d.jobs[i],i,k);
+    }));
+  }
+  function overview(d){
+    const t=document.getElementById('overview');
+    if(!d.jobs.length){t.innerHTML='';return}
+    const cnt=(rows,k)=>(rows||[]).filter(r=>r[1]===k).length;
+    t.innerHTML=`<thead><tr><th>#</th><th>회사 · 포지션</th><th>적합도</th><th>요건</th><th>강점 업무</th><th>예상 연봉</th><th>출근 (추천 동네)</th><th>마감</th></tr></thead><tbody>`+
+      d.jobs.map((j,i)=>{const o=j.homeOpts[0],H0=D.homes[o.home];
+        const bad=cnt(j.reqs,'미충족'),mid=cnt(j.reqs,'경계');
+        const req=bad?`<span class="tag bad">미충족 ${bad}</span>`:(mid?`<span class="tag mid">경계 ${mid}</span>`:`<span class="tag good">모두 충족</span>`);
+        return `<tr class="row" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td><div class="co">${esc(j.company)}</div><div class="sub">${esc(j.title)}</div><div class="sub">${esc(j.short||'')}</div></td><td><span class="pill ${j.fit}">${j.fit}</span></td><td>${req}</td><td class="num2">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2">${j.salary?esc(j.salary.range):'-'}</td><td class="num2">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">남친 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap">${esc(j.deadline)}</td></tr>`}).join('')+'</tbody>';
+    t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
+  }
+  function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
+  function table(rows){
+    if(!rows||!rows.length) return '<p class="sub">공고에 없음</p>';
+    return `<table class="chk"><tbody>${rows.map(r=>`<tr><td>${r[1]?`<span class="tag ${tagcls(r[1])}">${esc(r[1])}</span>`:''}</td><td>${esc(r[0])}${r[2]?`<div class="note">${esc(r[2])}</div>`:''}</td></tr>`).join('')}</tbody></table>`;
+  }
+  function gap(){
+    const g=D.gap, box=document.getElementById('gap'); if(!g){box.hidden=true;return}
+    box.innerHTML=`<h2>이 기획 업무들을 하기 위해 보완할 점</h2><p>${esc(g.intro)}</p>`+
+      g.items.map(it=>`<div class="gapitem"><span class="when">${esc(it.when)}</span><h2 style="font-size:1rem">${esc(it.gap)}</h2><p class="seen">${esc(it.seen)}</p><ul>${it.how.map(h=>`<li>${esc(h)}</li>`).join('')}</ul></div>`).join('')+
+      `<div class="gapitem"><h2 style="font-size:1rem">그 밖에 추천</h2><ul class="recs">${g.recs.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div>`;
+  }
+  function fill(j,i,k){
+    const o=j.homeOpts[k], H0=D.homes[o.home];
+    const strip=o.transit.segs.map(s=>`<span class="seg" style="flex-grow:${s[1]};background:${s[2]==='line1'?'var(--line1)':'var(--line)'}" title="${esc(s[0])} ${s[1]}분"></span>`).join('');
+    const legend=o.transit.segs.map(s=>`<span class="lbl">${esc(s[0])} ${s[1]}분</span>`).join(' · ');
+    document.getElementById('body'+i).innerHTML=`<div class="mapcommute">
+      <div class="mapscroll"><svg class="map" id="map${i}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(j.company)} 위치와 통근 지도"></svg></div>
+      <div class="commute">
+        <div class="leg"><span class="who">내 출근 · 대중교통 (${esc(H0.name)})</span><span class="min">${o.transit.min}분<small>${esc(o.transit.transfers)}</small></span>
+          <div class="strip">${strip}</div><span class="sub">${legend}</span><span class="sub">${esc(o.transit.route)}</span></div>
+        <div class="leg"><span class="who">내 출근 · 자차</span><span class="min">${esc(o.car.min)}분</span><span class="sub">${esc(o.car.route)}</span></div>
+        <div class="leg"><span class="who">남자친구 출근 (${esc(H0.name)} → 인천공장)</span><span class="min">${H0.pcar}분<small>자차</small></span><span class="sub">대중교통 ${esc(H0.ptransit)}</span></div>
+      </div></div>`;
+    miniMap(document.getElementById('map'+i),j,H0,o);
+    document.getElementById('links'+i).innerHTML=`<a href="${esc(j.url)}" target="_blank" rel="noopener">잡코리아 공고 보기</a><a href="${esc(naver(j,H0,'transit'))}" target="_blank" rel="noopener">네이버지도 대중교통 경로 (${esc(H0.name)} 출발)</a><a href="${esc(naver(j,H0,'car'))}" target="_blank" rel="noopener">네이버지도 자차 경로</a>${(j.sources||[]).map(s=>`<a href="${esc(s[1])}" target="_blank" rel="noopener">출처: ${esc(s[0])}</a>`).join('')}`;
+  }
+  function tabs(){
+    const nav=document.getElementById('days');
+    nav.innerHTML=D.days.map((d,i)=>`<button type="button" id="day${i}" aria-pressed="${i===day}">${esc(d.label)}</button>`).join('');
+    nav.querySelectorAll('button').forEach((b,i)=>b.addEventListener('click',()=>{day=i;tabs();render()}));
+    nav.hidden=D.days.length<2;
+  }
+  tabs();render();gap();
+  document.getElementById('profile').textContent=(D.profile||'')+' '+(D.current||'');
+  document.getElementById('certs').innerHTML='<tbody>'+(D.certs||[]).map(c=>`<tr><td><span class="tag unk">${esc(c[1])}</span></td><td>${esc(c[0])}<div class="note">${esc(c[2])}</div></td></tr>`).join('')+'</tbody>';
+})();
+</script>
+</body>
+</html>
