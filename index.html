@@ -140,6 +140,19 @@ tr.row.soonrow td.due{background:var(--bad-bg)}
 .others{font-size:.85rem;color:var(--muted)}
 .empty{color:var(--muted)}
 footer{font-size:.8rem;color:var(--muted)}
+.cbox{border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column}
+.crow{display:grid;grid-template-columns:76px 92px minmax(0,1fr);gap:10px;align-items:center;padding:8px 12px;border-top:1px solid var(--line)}
+.crow:first-child{border-top:0}
+.crow .who{font-size:.78rem;color:var(--muted);font-weight:600}
+.crow .min{font-family:var(--f-mono);font-size:1rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.crow .min small{font-family:var(--f-body);font-size:.72rem;color:var(--muted);margin-left:4px}
+.crow .cdet{display:flex;flex-direction:column;gap:4px;min-width:0}
+.crow .cdet .sub{font-size:.8rem}
+.maplegend{margin-top:6px;font-size:.78rem}
+.commutesect{border-top:1px dashed var(--line);padding-top:12px}
+#tip{position:fixed;z-index:50;max-width:380px;pointer-events:none;background:var(--ink);color:var(--surface);font-size:.8rem;line-height:1.5;padding:8px 10px;border-radius:6px;white-space:pre-line;box-shadow:0 4px 14px rgba(0,0,0,.18);display:none}
+.overview td[data-tip]{cursor:help}
+
 </style>
 </head>
 <body>
@@ -150,16 +163,10 @@ footer{font-size:.8rem;color:var(--muted)}
     <p class="sub" id="asof"></p>
     <p class="sub" id="profile"></p>
     <details class="certs"><summary>내 자격증 보기</summary><table class="chk" id="certs"></table></details>
-    <div class="basis">
-      <span><span class="dot" style="background:var(--home)"></span>집 후보 (회사마다 추천)</span>
-      <span><span class="dot" style="background:var(--steel)"></span>찬규 직장: 현대제철 인천공장 (고정)</span>
-      <span><span class="dot" style="background:var(--line1)"></span>1호선</span>
-      <span><span class="dot" style="background:var(--job)"></span>공고 회사</span>
-    </div>
   </header>
 
 
-  <p class="sub">집은 아직 정하지 않았으니, 회사마다 두 사람 모두 출근이 편한 동네를 추천합니다. 거리보다 <strong>갈아타지 않고 한 번에 가는지</strong>를 봅니다. 1호선(경인선) 직통, 인천역에서 출발하는 수인분당선(송도·안산·수원·분당·선릉), 부평구청에서 출발하는 7호선(광명·가산·강남), 계양·청라의 공항철도(마곡·서울역) 축이면 편도 90분까지 넣습니다. 카드의 동네 버튼을 누르면 다른 동네 기준 시간과 지도로 바뀝니다. 통근 시간은 평일 오전 8시 출발 기준 추정치이니 네이버지도 링크로 실제 경로를 확인해 보세요.</p>
+  <p class="sub">통근은 집 미정 기준으로, 회사마다 두 사람 모두 편한 동네를 추천합니다(환승 없이 한 번에, 편도 90분 이내). 각 카드 맨 아래에서 동네를 바꿔 볼 수 있어요.</p>
 
 
   <section class="summary">
@@ -167,7 +174,7 @@ footer{font-size:.8rem;color:var(--muted)}
     <p class="sub" id="priority"></p>
     <div class="filters"><button type="button" id="fAll" aria-pressed="true">전체 보기</button><button type="button" id="fNew" aria-pressed="false">새 공고만</button></div>
     <div class="tablewrap"><table class="overview" id="overview"></table></div>
-    <p class="sub">행을 누르면 아래 상세 카드로 이동합니다.</p>
+    <p class="sub">행을 누르면 아래 상세 카드로 이동합니다. 칸에 마우스를 올리면 설명이 나와요.</p>
     <p class="others" id="others"></p>
   </section>
 
@@ -242,7 +249,7 @@ footer{font-size:.8rem;color:var(--muted)}
    "ptransit": "50분 (인천1호선·버스)"
   }
  },
- "profile": "기준 경력: 과학기술전략연구소 기획 4년 4개월(2022.06.01~, 이 경력을 기준으로 봅니다). 화학생명공학 학사. 한국기계연구원 연구행정 2년(2015.09~2017.08, 학업 병행)은 꼭 맞는 회사인데 연차가 조금 모자랄 때만 보조로 씁니다.",
+ "profile": "경력 4년 4개월 (과학기술전략연구소 기획, 2022.06~) · 화학생명공학 학사 · 연봉 5,000만 → 희망 기본급 5,500만+",
  "gap": {
   "intro": "지금 올라온 공고들의 요건을 모아 보면 부족한 점이 몇 가지로 모입니다. 위에서부터 영향이 큰 순서입니다. 경력은 지금 회사 4년 4개월을 기준으로 봤습니다.",
   "items": [
@@ -2383,7 +2390,7 @@ footer{font-size:.8rem;color:var(--muted)}
   }
  ],
  "excluded": "이번에 확인하고 뺀 공고: 한화에어로스페이스 사업전략·M&A(경력 8년 이상, 판교), 한화 해양·에너지 사업개발(10년 이상), 한화 LNG 사업개발(LNG 투자 경력 필수), LS엠트론 기술기획(기계·산업공학 전공 필수), 희성피엠텍·애경케미칼·경인양행·강남제비스코(기획 직무 없음), 마크로젠 경영기획(바이오), 에코프로(청주), 헤리트·에프앤비네트웍스(소규모).",
- "priority": "순위 기준: ① 좋은 회사: 연봉, 회사의 성장성·미래 가능성 ② 내 전공(화학생명공학)이나 해봤던 사업(국책과제·우주·국방·에너지 기획)과 이어져 접근하기 쉬운 자리 ③ 자격요건 충족 ④ 통근: 서울·인천·경기 어디든 출퇴근만 편하면 됩니다 ⑤ 복지(좋으면 가산점). 상시 채용·인재풀 공고는 마감이 없어 맨 아래에 둡니다."
+ "priority": "순위: ① 연봉·성장성 ② 전공·경험 연관 ③ 자격요건 ④ 통근 ⑤ 복지 · 상시·인재풀은 맨 아래 · 표 칸에 마우스를 올리면 자세한 설명이 나와요."
 }</script>
 
 <script>
@@ -2444,7 +2451,7 @@ footer{font-size:.8rem;color:var(--muted)}
   let onlyNew=false;
   const isNew=j=>j.added===D.updatedAt;
   function rcls(v){return v>=3.4?'good':v>=3.0?'mid':'bad'}
-  function rt(j){const r=j.ratings;if(!r)return '-';const f=(k,n)=>r[k]?`<span class="tag ${rcls(r[k][0])}" title="${esc(r[k][2])} (리뷰 ${r[k][1]}개)">${n} ${r[k][0].toFixed(1)}</span>`:'';return `<div class="evals">${f('blind','블라인드')}${f('jp','잡플래닛')}</div>`}
+  function rt(j){const r=j.ratings;if(!r)return '-';const f=(k,n)=>r[k]?`<span class="tag ${rcls(r[k][0])}">${n} ${r[k][0].toFixed(1)}</span>`:'';return `<div class="evals">${f('blind','블라인드')}${f('jp','잡플래닛')}</div>`}
   function rtCard(j){const r=j.ratings;if(!r)return '';const row=(k,n)=>r[k]?`<div><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">${n} <span class="tag ${rcls(r[k][0])}">${r[k][0].toFixed(1)} / 5</span> <span class="sub">리뷰 ${r[k][1].toLocaleString()}개</span></span><span class="sub">${esc(r[k][2])} · <a href="${esc(r[k][3])}" target="_blank" rel="noopener">보기</a></span></div>`:'';return `<div class="sect"><h3>직원 평점 <span class="sub">(${esc(r.at)} 기준)</span></h3><div class="evalgrid">${row('blind','블라인드')}${row('jp','잡플래닛')}</div></div>`}
   function dueAt(j){const m=/(\d{1,2})\/(\d{1,2})/.exec(j.deadline||'');if(!m)return null;const hm=/(\d{1,2}):(\d{2})/.exec(j.deadline)||[0,23,59];const now=Date.now();const y=new Date(now+9*3600e3).getUTCFullYear();let t=Date.UTC(y,+m[1]-1,+m[2],+hm[1]-9,+hm[2]);if(t<now-180*864e5)t=Date.UTC(y+1,+m[1]-1,+m[2],+hm[1]-9,+hm[2]);return t}
   function dleft(j){const t=dueAt(j);if(t===null)return null;const kst=x=>{const d=new Date(x+9*3600e3);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())};return Math.round((kst(t)-kst(Date.now()))/864e5)}
@@ -2477,9 +2484,6 @@ footer{font-size:.8rem;color:var(--muted)}
           <h2>${esc(j.company)} · ${esc(j.title)}${isNew(j)?'<span class="newb">NEW</span>':''}</h2>
           <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span>${dueHtml(j,'마감 ')}</div>
         </div></summary>
-        <div class="homes" role="group" aria-label="집 위치 선택"><span class="lab">집을 어디에 구하면</span>${j.homeOpts.map((o,k)=>`<button type="button" id="h${i}_${k}" data-i="${i}" data-k="${k}" aria-pressed="${k===0}">${esc(D.homes[o.home].name)}${k===0?'<span class="rec">추천</span>':''}</button>`).join('')}</div>
-        <p class="homewhy">${esc(j.homeWhy||'')}</p>
-        <div id="body${i}"></div>
         ${j.salary?`<div class="salary"><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">입사하면 예상 연봉 (성과급 포함 추정, ${esc(D.current||'')})</span><span class="min">${esc(j.salary.range)}원</span><span class="sub">${esc(j.salary.basis)} <a href="${esc(j.salary.src[1])}" target="_blank" rel="noopener">출처: ${esc(j.salary.src[0])}</a></span></div>`:''}
         <p class="expline"><strong>연차 체크</strong> · ${esc(j.expCheck||'')}</p>
         <div class="sect"><h3>주요업무와 내 강점</h3>${table(j.duties)}</div>
@@ -2495,6 +2499,10 @@ footer{font-size:.8rem;color:var(--muted)}
           <div><h3>주의할 점</h3><p>${esc(j.risk)}</p></div>
         </div>
         <div class="fitbox"><h3>나와 맞는 이유</h3><p>${esc(j.match)}</p></div>
+        <div class="sect commutesect"><h3>통근</h3>
+        <div class="homes" role="group" aria-label="집 위치 선택"><span class="lab">집을 어디에 구하면</span>${j.homeOpts.map((o,k)=>`<button type="button" id="h${i}_${k}" data-i="${i}" data-k="${k}" aria-pressed="${k===0}">${esc(D.homes[o.home].name)}${k===0?'<span class="rec">추천</span>':''}</button>`).join('')}</div>
+        <p class="homewhy">${esc(j.homeWhy||'')}</p>
+        <div id="body${i}"></div></div>
         <div class="links" id="links${i}"></div>
       </details>`).join('');
     overview(d);
@@ -2513,8 +2521,19 @@ footer{font-size:.8rem;color:var(--muted)}
       d.jobs.map((j,i)=>{const o=j.homeOpts[0],H0=D.homes[o.home];
         const bad=cnt(j.reqs,'미충족'),mid=cnt(j.reqs,'경계');
         const req=bad?`<span class="tag bad">미충족 ${bad}</span>`:(mid?`<span class="tag mid">경계 ${mid}</span>`:`<span class="tag good">모두 충족</span>`);
-        const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}" title="${esc(j.eval[k][1])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
-        return `<tr class="row${isNew(j)?' isnew':''}${isSoon(j)?' soonrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:200px"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:220px">${esc(j.dutySum||'')}</td><td><div class="evals">${evs}</div></td><td class="num2">${rt(j)}</td><td><span class="pill ${j.fit}">${j.fit}</span></td><td>${req}</td><td class="num2">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2">${j.salary?esc(j.salary.range):'-'}</td><td class="num2">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
+        const T=x=>esc(x);
+        const tipCo=[j.company+' · '+j.title,j.size,j.place,'',j.match||''].join('\n');
+        const tipDu='공고 주요업무\n'+(j.duties||[]).map(r=>'· '+r[0]+(r[1]?' ['+r[1]+']':'')).join('\n');
+        const tipEv=j.eval?Object.keys(EVL).filter(k=>j.eval[k]).map(k=>EVL[k]+' '+j.eval[k][0]+': '+j.eval[k][1]).join('\n'):'';
+        const tipRt=j.ratings?['blind','jp'].filter(k=>j.ratings[k]).map(k=>(k==='blind'?'블라인드 ':'잡플래닛 ')+j.ratings[k][0]+' (리뷰 '+j.ratings[k][1]+'개)\n  '+j.ratings[k][2]).join('\n'):'';
+        const tipFit='적합도 '+j.fit+'\n'+(j.short||'')+'\n\n'+(j.expCheck||'');
+        const tipRq='자격요건\n'+(j.reqs||[]).map(r=>'· ['+(r[1]||'-')+'] '+r[0]+(r[2]?'\n    → '+r[2]:'')).join('\n');
+        const tipSt='내 강점과 겹치는 업무\n'+(j.duties||[]).filter(r=>r[1]==='강점').map(r=>'· '+r[0]+(r[2]?'\n    → '+r[2]:'')).join('\n');
+        const tipSa=j.salary?(j.salary.range+'\n'+j.salary.basis):'';
+        const tipCm='내 대중교통 '+o.transit.min+'분 ('+o.transit.transfers+')\n'+o.transit.route+'\n내 자차 '+o.car.min+'분\n찬규 자차 '+H0.pcar+'분 ('+H0.name+' → 인천공장)\n\n'+(j.homeWhy||'');
+        const tipDl=j.deadline+(dueAt(j)!==null?'\n'+ddayTxt(dleft(j))+' · '+remainTxt(j):'\n마감 없음 (상시)');
+        const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
+        return `<tr class="row${isNew(j)?' isnew':''}${isSoon(j)?' soonrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:200px" data-tip="${T(tipCo)}"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:220px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td data-tip="${T(tipEv)}"><div class="evals">${evs}</div></td><td class="num2" data-tip="${T(tipRt)}">${rt(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
@@ -2533,12 +2552,12 @@ footer{font-size:.8rem;color:var(--muted)}
     const strip=o.transit.segs.map(s=>`<span class="seg" style="flex-grow:${s[1]};background:${s[2]==='line1'?'var(--line1)':'var(--line)'}" title="${esc(s[0])} ${s[1]}분"></span>`).join('');
     const legend=o.transit.segs.map(s=>`<span class="lbl">${esc(s[0])} ${s[1]}분</span>`).join(' · ');
     document.getElementById('body'+i).innerHTML=`<div class="mapcommute">
-      <div class="mapscroll"><svg class="map" id="map${i}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(j.company)} 위치와 통근 지도"></svg></div>
-      <div class="commute">
-        <div class="leg"><span class="who">내 출근 · 대중교통 (${esc(H0.name)})</span><span class="min">${o.transit.min}분<small>${esc(o.transit.transfers)}</small></span>
-          <div class="strip">${strip}</div><span class="sub">${legend}</span><span class="sub">${esc(o.transit.route)}</span></div>
-        <div class="leg"><span class="who">내 출근 · 자차</span><span class="min">${esc(o.car.min)}분</span><span class="sub">${esc(o.car.route)}</span></div>
-        <div class="leg"><span class="who">찬규 출근 (${esc(H0.name)} → 인천공장)</span><span class="min">${H0.pcar}분<small>자차</small></span><span class="sub">대중교통 ${esc(H0.ptransit)}</span></div>
+      <div><div class="mapscroll"><svg class="map" id="map${i}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(j.company)} 위치와 통근 지도"></svg></div>
+        <div class="basis maplegend"><span><span class="dot" style="background:var(--home)"></span>집 후보</span><span><span class="dot" style="background:var(--steel)"></span>찬규 직장 (현대제철 인천공장)</span><span><span class="dot" style="background:var(--line1)"></span>1호선</span><span><span class="dot" style="background:var(--job)"></span>공고 회사</span></div></div>
+      <div class="cbox">
+        <div class="crow"><span class="who">내 대중교통</span><span class="min">${o.transit.min}분<small>${esc(o.transit.transfers)}</small></span><div class="cdet"><div class="strip">${strip}</div><span class="sub">${esc(o.transit.route)}</span></div></div>
+        <div class="crow"><span class="who">내 자차</span><span class="min">${esc(o.car.min)}분</span><div class="cdet"><span class="sub">${esc(o.car.route)}</span></div></div>
+        <div class="crow"><span class="who">찬규 자차</span><span class="min">${H0.pcar}분</span><div class="cdet"><span class="sub">${esc(H0.name)} → 인천공장 · 대중교통 ${esc(H0.ptransit)}</span></div></div>
       </div></div>`;
     miniMap(document.getElementById('map'+i),j,H0,o);
     document.getElementById('links'+i).innerHTML=`<a href="${esc(j.url)}" target="_blank" rel="noopener">잡코리아 공고 보기</a><a href="${esc(naver(j,H0,'transit'))}" target="_blank" rel="noopener">네이버지도 대중교통 경로 (${esc(H0.name)} 출발)</a><a href="${esc(naver(j,H0,'car'))}" target="_blank" rel="noopener">네이버지도 자차 경로</a>${(j.sources||[]).map(s=>`<a href="${esc(s[1])}" target="_blank" rel="noopener">출처: ${esc(s[0])}</a>`).join('')}`;
@@ -2547,7 +2566,12 @@ footer{font-size:.8rem;color:var(--muted)}
   fA.addEventListener('click',()=>{onlyNew=false;fA.setAttribute('aria-pressed','true');fN.setAttribute('aria-pressed','false');render()});
   fN.addEventListener('click',()=>{onlyNew=true;fN.setAttribute('aria-pressed','true');fA.setAttribute('aria-pressed','false');render()});
   render();gap();
-  document.getElementById('profile').textContent=(D.profile||'')+' '+(D.current||'');
+  (()=>{const tip=document.createElement('div');tip.id='tip';tip.setAttribute('role','tooltip');document.body.appendChild(tip);let cur=null;
+    const place=e=>{const pad=14,w=tip.offsetWidth,h=tip.offsetHeight;let x=e.clientX+pad,y=e.clientY+pad;if(x+w>innerWidth-8)x=e.clientX-w-pad;if(y+h>innerHeight-8)y=e.clientY-h-pad;tip.style.left=Math.max(8,x)+'px';tip.style.top=Math.max(8,y)+'px'};
+    document.addEventListener('mouseover',e=>{const c=e.target.closest('[data-tip]');if(c===cur)return;cur=c;if(!c||!c.dataset.tip.trim()){tip.style.display='none';return}tip.textContent=c.dataset.tip;tip.style.display='block';place(e)});
+    document.addEventListener('mousemove',e=>{if(cur)place(e)});
+    document.addEventListener('scroll',()=>{tip.style.display='none';cur=null},{passive:true});})();
+  document.getElementById('profile').textContent=(D.profile||'');
   document.getElementById('certs').innerHTML='<tbody>'+(D.certs||[]).map(c=>`<tr><td><span class="tag unk">${esc(c[1])}</span></td><td>${esc(c[0])}<div class="note">${esc(c[2])}</div></td></tr>`).join('')+'</tbody>';
 })();
 </script>
