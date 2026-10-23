@@ -34,7 +34,7 @@
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
-.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.wrap{max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 h1{font-size:1.6rem;margin:0;text-wrap:balance;letter-spacing:-.01em}
 h2{font-size:1.15rem;margin:0;text-wrap:balance}
 h3{font-size:.8rem;margin:0;color:var(--muted);letter-spacing:.06em;font-weight:600}
@@ -2053,7 +2053,7 @@ footer{font-size:.8rem;color:var(--muted)}
         const bad=cnt(j.reqs,'미충족'),mid=cnt(j.reqs,'경계');
         const req=bad?`<span class="tag bad">미충족 ${bad}</span>`:(mid?`<span class="tag mid">경계 ${mid}</span>`:`<span class="tag good">모두 충족</span>`);
         const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}" title="${esc(j.eval[k][1])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
-        return `<tr class="row${isNew(j)?' isnew':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:190px"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div><div class="sub">${esc(j.short||'')}</div></td><td style="min-width:220px">${esc(j.dutySum||'')}</td><td><div class="evals">${evs}</div></td><td><span class="pill ${j.fit}">${j.fit}</span></td><td>${req}</td><td class="num2">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2">${j.salary?esc(j.salary.range):'-'}</td><td class="num2">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap">${esc(j.deadline)}</td></tr>`}).join('')+'</tbody>';
+        return `<tr class="row${isNew(j)?' isnew':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:200px"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:220px">${esc(j.dutySum||'')}</td><td><div class="evals">${evs}</div></td><td><span class="pill ${j.fit}">${j.fit}</span></td><td>${req}</td><td class="num2">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2">${j.salary?esc(j.salary.range):'-'}</td><td class="num2">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap">${esc(j.deadline)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
