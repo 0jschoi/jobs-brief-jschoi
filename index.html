@@ -78,7 +78,7 @@ tr.isnew td:first-child{box-shadow:inset 3px 0 0 var(--steel)}
 .overview tr.row:hover td{background:var(--bg)}
 .overview .co{font-weight:600}
 .overview .num2{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-details.card>summary{list-style:none;cursor:pointer}
+details.card>summary{list-style:none;cursor:default}
 details.card>summary::-webkit-details-marker{display:none}
 details.card[open]>summary{margin-bottom:4px}
 .chev{margin-left:auto;flex:none;color:var(--muted);font-size:.8rem;white-space:nowrap}
@@ -157,7 +157,7 @@ footer{font-size:.8rem;color:var(--muted)}
     <p class="sub" id="priority"></p>
     <div class="filters"><button type="button" id="fAll" aria-pressed="true">전체 보기</button><button type="button" id="fNew" aria-pressed="false">새 공고만</button></div>
     <div class="tablewrap"><table class="overview" id="overview"></table></div>
-    <p class="sub">행을 누르면 아래 상세 카드가 열립니다.</p>
+    <p class="sub">행을 누르면 아래 상세 카드로 이동합니다.</p>
     <p class="others" id="others"></p>
   </section>
 
@@ -2163,12 +2163,12 @@ footer{font-size:.8rem;color:var(--muted)}
     document.getElementById('others').textContent=D.excluded||'';
     const box=document.getElementById('jobs');
     if(!d.jobs.length){box.innerHTML='<p class="empty">조건에 맞는 공고가 없습니다.</p>';overview(d);return}
-    box.innerHTML=d.jobs.map((j,i)=>`<details class="card" id="job${i}">
-        <summary class="top"><span class="num">${i+1}</span><div class="t">
+    box.innerHTML=d.jobs.map((j,i)=>`<details class="card" id="job${i}" open>
+        <summary class="top" onclick="event.preventDefault()"><span class="num">${i+1}</span><div class="t">
           <div class="meta"><span class="pill ${j.fit}">적합도 ${j.fit}</span><span>${esc(j.size)}</span>${j.salary?`<span>예상 연봉 ${esc(j.salary.range)}</span>`:''}</div>
           <h2>${esc(j.company)} · ${esc(j.title)}${isNew(j)?'<span class="newb">NEW</span>':''}</h2>
           <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span><span class="due">마감 ${esc(j.deadline)}</span></div>
-        </div><span class="chev"><span class="o">펼치기 ▾</span><span class="c">접기 ▴</span></span></summary>
+        </div></summary>
         <div class="homes" role="group" aria-label="집 위치 선택"><span class="lab">집을 어디에 구하면</span>${j.homeOpts.map((o,k)=>`<button type="button" id="h${i}_${k}" data-i="${i}" data-k="${k}" aria-pressed="${k===0}">${esc(D.homes[o.home].name)}${k===0?'<span class="rec">추천</span>':''}</button>`).join('')}</div>
         <p class="homewhy">${esc(j.homeWhy||'')}</p>
         <div id="body${i}"></div>
