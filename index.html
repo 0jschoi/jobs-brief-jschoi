@@ -108,6 +108,9 @@ svg.map{display:block;width:100%;height:auto}
 .pill{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px}
 .pill.상{background:var(--hi-bg);color:var(--hi)} .pill.중{background:var(--mid-bg);color:var(--mid)}
 .due{font-weight:600;color:var(--steel)}
+.due.soon{color:var(--bad)}
+.dday{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--bad);color:#fff;font-size:.72rem;font-weight:700;font-family:var(--f-mono);vertical-align:1px}
+tr.row.soonrow td.due{background:var(--bad-bg)}
 .commute{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
 .leg{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .leg .who{font-size:.78rem;color:var(--muted);letter-spacing:.04em;font-weight:600}
@@ -232,19 +235,30 @@ footer{font-size:.8rem;color:var(--muted)}
    "ptransit": "50분 (인천1호선·버스)"
   }
  },
- "profile": "기준 경력: 과학기술전략연구소 기획 4년 4개월(2022.06~) + 한국기계연구원 연구행정 2년(2015.09~2017.08, 학업 병행) = 총 6년 4개월. 화학생명공학 학사.",
+ "profile": "기준 경력: 과학기술전략연구소 기획 4년 4개월(2022.06.01~, 이 경력을 기준으로 봅니다). 화학생명공학 학사. 한국기계연구원 연구행정 2년(2015.09~2017.08, 학업 병행)은 꼭 맞는 회사인데 연차가 조금 모자랄 때만 보조로 씁니다.",
  "gap": {
-  "intro": "오늘 공고 5건과 원문 확인 후 뺀 3건, 총 8건의 요건을 모아 보면 부족한 점이 몇 가지로 모입니다. 위에서부터 영향이 큰 순서입니다.",
+  "intro": "지금 올라온 공고들의 요건을 모아 보면 부족한 점이 몇 가지로 모입니다. 위에서부터 영향이 큰 순서입니다. 경력은 지금 회사 4년 4개월을 기준으로 봤습니다.",
   "items": [
    {
-    "gap": "연차: 순수 기획 경력 4년 4개월",
-    "seen": "8건 중 6건이 5년 이상, 2건이 6년 이상을 요구합니다.",
+    "gap": "연차: 현재 경력 4년 4개월",
+    "seen": "8건 중 6건이 5년 이상, 2건이 6년 이상을 요구합니다. 5년 이상 공고는 8개월 차이라 '경계'로 봤습니다.",
     "how": [
-     "기계연 2년을 '정부 R&D 과제 협약·예산·정산 관리'로 써서 총 6년 4개월을 기획 연관 경력으로 제시하세요.",
-     "경력기술서 첫 줄에 '기획 6년(기획 4년 4개월 + R&D 과제관리 2년)'처럼 계산식을 보여주면 인사담당자가 덜 깎습니다.",
-     "10년 이상 공고는 지원하지 말고, 5~6년 하한 공고는 지원하세요. 하한선 공고는 서류에서 바로 걸러지지 않는 경우가 많습니다."
+     "경력은 지금 회사(2022.06~) 하나로 보여주고, 기계연은 경력란 맨 아래에 짧게만 두세요.",
+     "5년 이상 공고는 하한선과 차이가 작아 그대로 지원해도 됩니다. 정말 맞는 회사인데 6년 이상을 요구할 때만 기계연 2년을 'R&D 과제 예산·정산 관리'로 덧붙여 계산을 맞추세요.",
+     "10년 이상 공고는 지원하지 마세요. 2027년 6월이면 5년을 채워 선택지가 크게 늘어납니다."
     ],
-    "when": "이번 주 (서류 수정)"
+    "when": "지원할 때마다"
+   },
+   {
+    "gap": "공공 연구기관 기획과 기업 기획의 차이",
+    "seen": "공고들이 공통으로 묻는 것은 '돈이 되는지'입니다: 매출·이익 목표(금호·LS MnM), 투자심의·M&A(금호·동성·유베이스), 수주·사업화(한화 드론). 지금 하는 기획은 정책 근거·예산 확보·기관 조율이 중심이라, 같은 '기획'이어도 평가 기준이 다릅니다.",
+    "how": [
+     "겹치는 부분은 그대로 강점입니다: 중장기 로드맵, 수요조사·시장 분석, 예산·손익 관리, 여러 이해관계자 조율, 보고서·경영진 보고. 기업 전략기획의 일상 업무와 거의 같습니다.",
+     "다른 부분은 말을 바꿔서 메우세요: '예산 확보' → '투자 유치·사업성 검토', '수요조사 169개 기관' → '잠재 고객 발굴·시장 검증', 'B/C 분석' → '투자 타당성(NPV·IRR) 검토', '정책 대응' → '대외 환경 분석·리스크 관리'.",
+     "기업 기획에서 새로 필요한 감각은 손익(P&L)과 경쟁사입니다. 지원 회사의 사업보고서를 읽고 '매출 구조·경쟁사·내가 할 첫 번째 과제'를 1장으로 정리해 두면 면접에서 이 걱정을 바로 지울 수 있습니다.",
+     "처음 옮기기 좋은 곳은 국책과제·정부 사업 비중이 있는 회사입니다(한화에어로스페이스 방산·우주, 수소·에너지 회사). 지금 경험이 바로 쓰이고, 그 안에서 기업 기획을 익히면 다음 선택지가 넓어집니다."
+    ],
+    "when": "이번 주 (자소서·면접 준비)"
    },
    {
     "gap": "M&A·JV·투자 실행 경험",
@@ -331,224 +345,6 @@ footer{font-size:.8rem;color:var(--muted)}
   ]
  ],
  "jobs": [
-  {
-   "fit": "상",
-   "company": "금호석유화학",
-   "size": "대기업 · 코스피 상장",
-   "title": "전략기획 상시 인재풀 등록",
-   "exp": "관련 경력 2년 이상",
-   "deadline": "상시 (마감 없음)",
-   "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50078127",
-   "place": "서울 중구 청계천로 100 (종각·을지로입구역)",
-   "lat": 37.5672,
-   "lon": 126.989,
-   "homeOpts": [
-    {
-     "home": "bupyeong",
-     "transit": {
-      "min": 61,
-      "route": "부평역 → 1호선 급행 → 종각역 → 도보 7분",
-      "transfers": "환승 없음",
-      "segs": [
-       [
-        "도보",
-        3,
-        "walk"
-       ],
-       [
-        "1호선",
-        51,
-        "line1"
-       ],
-       [
-        "도보",
-        7,
-        "walk"
-       ]
-      ]
-     },
-     "car": {
-      "min": "60~75",
-      "route": "경인고속도로 → 서울 도심 (출근 정체)"
-     }
-    },
-    {
-     "home": "bucheon",
-     "transit": {
-      "min": 52,
-      "route": "부천역 → 1호선 급행 → 종각역 → 도보 7분",
-      "transfers": "환승 없음",
-      "segs": [
-       [
-        "도보",
-        3,
-        "walk"
-       ],
-       [
-        "1호선",
-        42,
-        "line1"
-       ],
-       [
-        "도보",
-        7,
-        "walk"
-       ]
-      ]
-     },
-     "car": {
-      "min": "55~70",
-      "route": "경인고속도로 → 서울 도심 (출근 정체)"
-     }
-    },
-    {
-     "home": "juan",
-     "transit": {
-      "min": 68,
-      "route": "주안역 → 1호선 급행 → 종각역 → 도보 7분",
-      "transfers": "환승 없음",
-      "segs": [
-       [
-        "도보",
-        3,
-        "walk"
-       ],
-       [
-        "1호선",
-        58,
-        "line1"
-       ],
-       [
-        "도보",
-        7,
-        "walk"
-       ]
-      ]
-     },
-     "car": {
-      "min": "65~80",
-      "route": "경인고속도로 → 서울 도심 (출근 정체)"
-     }
-    }
-   ],
-   "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
-   "expCheck": "요구 2년 이상 → 기획 경력 4년 4개월로 충족합니다. 오늘 공고 중 연차 요건이 가장 여유 있습니다.",
-   "duties": [
-    [
-     "회사의 중장기 전략 수립",
-     "강점",
-     "KSTAR 20년 로드맵, 충남 해양산업 10년 전략을 직접 설계했습니다."
-    ],
-    [
-     "신규사업·M&A 검토, 조직·규정 관리, 투자 심의",
-     "연결 가능",
-     "B/C·타당성 분석은 투자 심의와 같은 뿌리입니다. M&A 실무는 없습니다."
-    ],
-    [
-     "전략 실행·검토를 위한 성과관리(PM)",
-     "강점",
-     "복합빔 5대 KPI, KSTAR 성과지표 체계를 만들었습니다."
-    ],
-    [
-     "투자 및 비용예산 관리, 조직문화 관리",
-     "강점",
-     "1.8조 KSTAR 예산 설계, 연 46.5억 프로젝트 손익·현금흐름 관리 경험이 있습니다."
-    ],
-    [
-     "동반성장 등 대외 업무",
-     "연결 가능",
-     "정부·지자체·전문가위원회 대응 경험으로 설명할 수 있습니다."
-    ],
-    [
-     "공시·이사회·주주총회 등 거버넌스, 국내외 IR",
-     "약함",
-     "상장사 공시·IR 경험은 없습니다."
-    ]
-   ],
-   "reqs": [
-    [
-     "4년제 대학 이상 졸업",
-     "충족",
-     "화학생명공학 학사"
-    ],
-    [
-     "지원 분야 관련 경력 24개월 이상(인턴·아르바이트 제외)",
-     "충족",
-     "기획 4년 4개월. 중부발전 인턴은 산입되지 않습니다."
-    ],
-    [
-     "해외여행 결격사유 없음",
-     "충족",
-     ""
-    ]
-   ],
-   "prefs": [
-    [
-     "공고에 우대사항 없음",
-     "",
-     ""
-    ]
-   ],
-   "biz": "합성고무·합성수지(ABS)·NB라텍스가 주력인 석유화학 회사입니다. 의료용 장갑 원료 NB라텍스는 세계 1위권입니다.",
-   "recent": "2026년 2분기 영업이익 약 1,803억(+177%) 전망이 나올 만큼 업황 대비 실적이 좋습니다.",
-   "vision": "포스코퓨처엠과 리튬메탈전지·CNT 도전재, CCUS, 재활용 ABS 등 배터리·친환경 소재로 사업을 넓히고 있습니다.",
-   "match": "주요업무 6개 중 4개가 진선 님 강점과 겹치고 연차 요건도 충족합니다. 화학 전공이라 산업 이해도 설명하기 쉽습니다. 마감이 없으니 바로 등록해 두는 걸 추천합니다.",
-   "risk": "인재풀 등록이라 결원이 생겨야 연락이 옵니다. 공시·IR은 약점이니 면접 전에 사업보고서를 읽어 두세요.",
-   "sources": [
-    [
-     "다음 뉴스 (2026.08)",
-     "https://v.daum.net/v/20260803133613120"
-    ]
-   ],
-   "salary": {
-    "range": "6,500~7,500만",
-    "basis": "직원 평균 7,315만, 신입 초봉 4,992만(자소설닷컴 기준). 6년차 경력 입사면 대리 말~과장 초 직급으로 보고 추정했습니다.",
-    "src": [
-     "자소설닷컴",
-     "https://jasoseol.com/companies/9594"
-    ]
-   },
-   "short": "연차 충족, 업무 6개 중 4개 강점",
-   "added": "2026-10-23 10:40",
-   "dutySum": "중장기 전략, 신규사업·M&A 검토, 투자심의, 성과관리, 예산, IR·공시",
-   "eval": {
-    "growth": [
-     "중상",
-     "배터리 소재(CNT·리튬메탈)·친환경으로 확장 중, 본업은 석유화학 업황을 탑니다."
-    ],
-    "stability": [
-     "상",
-     "NB라텍스 세계 1위권, 2026년 2분기 영업이익 약 1,800억 전망."
-    ],
-    "culture": [
-     "중",
-     "보수적인 화학 대기업 문화로 알려져 있습니다 [추정]. 잡플래닛 리뷰를 꼭 확인하세요."
-    ],
-    "pay": [
-     "상",
-     "평균 7,315만"
-    ],
-    "welfare": [
-     "상",
-     "블라인드 급여·복지 3.6, 잡플래닛 복지·급여 3.5. 리뷰에서 처우·워라밸 평이 좋은 편"
-    ]
-   },
-   "ratings": {
-    "blind": [
-     3.6,
-     428,
-     "급여·복지 3.6 · 워라밸 3.8 · 경영진 2.8",
-     "https://www.teamblind.com/kr/company/금호석유화학/reviews"
-    ],
-    "jp": [
-     3.5,
-     270,
-     "복지·급여 3.5 · 워라밸 3.8 · 경영진 2.9",
-     "https://www.jobplanet.co.kr/companies/43384/reviews"
-    ],
-    "at": "2026-10-23"
-   }
-  },
   {
    "fit": "상",
    "company": "동성케미컬",
@@ -650,7 +446,7 @@ footer{font-size:.8rem;color:var(--muted)}
     }
    ],
    "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
-   "expCheck": "요구 '기획 업무 6~9년' → 기획만 세면 4년 4개월로 부족하고, 기계연 연구행정 2년을 넣으면 6년 4개월로 하한선에 걸칩니다. 서류에서 기계연 경력을 '정부 R&D 과제 예산·정산 관리'로 써야 합니다.",
+   "expCheck": "요구 '기획 업무 6~9년' → 현재 경력 4년 4개월로는 1년 8개월 부족합니다. 업무가 잘 맞는 곳이라, 지원한다면 이때만 기계연 2년(정부 R&D 과제 예산·정산 관리)을 보조로 붙여 6년 4개월로 맞추는 방법이 있습니다.",
    "duties": [
     [
      "내부 사업·외부 환경 분석 및 경영진 보고",
@@ -681,8 +477,8 @@ footer{font-size:.8rem;color:var(--muted)}
     ],
     [
      "기획 업무 경력 6년 이상 9년 이하",
-     "경계",
-     "기획 4년 4개월 + 기계연 2년 = 6년 4개월. 회사가 기계연 경력을 인정할지가 관건입니다."
+     "미충족",
+     "현재 경력 4년 4개월. 기계연 2년을 보조로 붙여야 하한선(6년)에 닿고, 회사가 인정할지는 불확실합니다."
     ]
    ],
    "prefs": [
@@ -870,7 +666,7 @@ footer{font-size:.8rem;color:var(--muted)}
    "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
    "dutySum": "국책과제 협력(국기연 선행연구·소요기획), 정부·민간 수요 발굴·제안, 상용화 로드맵·BM, 사업계획·예산·손익",
    "short": "업무는 경력과 딱 맞음, 영업 경력 요건이 걸림",
-   "expCheck": "요구 '방산·항공우주 사업개발 또는 B2B/B2G 영업 5년 이상' → 국방·우주 국책사업 기획 4년 4개월은 B2G 경험으로 설명할 수 있지만 영업 경력은 아니라 경계입니다. 도전 지원입니다.",
+   "expCheck": "요구 '방산·항공우주 사업개발 또는 B2B/B2G 영업 5년 이상' → 국방·우주 국책사업 기획 4년 4개월은 B2G 경험으로 설명할 수 있지만 연차가 8개월 부족하고 영업 경력도 아닙니다. 도전 지원입니다.",
    "duties": [
     [
      "국책과제 협력(국기연 선행연구, 통합소요기획 등) 및 수주사업 등 국내 영업·사업화",
@@ -1106,7 +902,7 @@ footer{font-size:.8rem;color:var(--muted)}
     }
    ],
    "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 50분입니다. 이 목록에서 내 출근이 가장 짧은 서울 회사입니다.",
-   "expCheck": "요구 5년 이상 → 기계연 포함 6년 4개월로 충족, 기획만 세면 4년 4개월로 조금 부족합니다.",
+   "expCheck": "요구 5년 이상 → 현재 경력 4년 4개월로 8개월 부족해 경계입니다. 하한선과 차이가 작아 서류에서 바로 걸러지지 않는 경우가 많고, 필요하면 기계연 경력을 보조로 덧붙일 수 있습니다.",
    "duties": [
     [
      "사업기획·신사업 (시장조사, 사업개발, 신사업 발굴, 전략기획)",
@@ -1122,8 +918,8 @@ footer{font-size:.8rem;color:var(--muted)}
    "reqs": [
     [
      "경력 5년 이상",
-     "충족",
-     "기계연 포함 6년 4개월 (기획만 4년 4개월)"
+     "경계",
+     "현재 경력 4년 4개월 (8개월 부족)"
     ],
     [
      "대졸 이상",
@@ -1162,7 +958,7 @@ footer{font-size:.8rem;color:var(--muted)}
      "https://www.jobplanet.co.kr/companies/208316/salaries/어프로티움"
     ]
    },
-   "short": "연차 충족(기계연 포함), 수소 신사업",
+   "short": "연차 8개월 부족(경계), 수소 신사업",
    "added": "2026-10-23 10:40",
    "dutySum": "사업기획·신사업 (시장조사, 사업개발, 신사업 발굴). 상세 업무 미확인",
    "eval": {
@@ -1199,228 +995,6 @@ footer{font-size:.8rem;color:var(--muted)}
      118,
      "복지·급여 2.0 · 경영진 1.9",
      "https://www.jobplanet.co.kr/companies/208316/reviews"
-    ],
-    "at": "2026-10-23"
-   }
-  },
-  {
-   "fit": "중",
-   "company": "LS MnM",
-   "size": "대기업 · LS그룹",
-   "title": "EV배터리 소재사업 전략기획 (상시)",
-   "exp": "유관 경력 5년 이상, 배터리 소재 경력",
-   "deadline": "상시",
-   "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50069531",
-   "place": "서울 용산구 LS용산타워 (용산역·신용산역)",
-   "lat": 37.5297,
-   "lon": 126.968,
-   "homeOpts": [
-    {
-     "home": "bupyeong",
-     "transit": {
-      "min": 45,
-      "route": "부평역 → 1호선 급행 → 용산역 → 도보 5분",
-      "transfers": "환승 없음",
-      "segs": [
-       [
-        "도보",
-        3,
-        "walk"
-       ],
-       [
-        "1호선",
-        37,
-        "line1"
-       ],
-       [
-        "도보",
-        5,
-        "walk"
-       ]
-      ]
-     },
-     "car": {
-      "min": "60~75",
-      "route": "경인고속도로 → 서울 도심 (출근 정체)"
-     }
-    },
-    {
-     "home": "bucheon",
-     "transit": {
-      "min": 36,
-      "route": "부천역 → 1호선 급행 → 용산역 → 도보 5분",
-      "transfers": "환승 없음",
-      "segs": [
-       [
-        "도보",
-        3,
-        "walk"
-       ],
-       [
-        "1호선",
-        28,
-        "line1"
-       ],
-       [
-        "도보",
-        5,
-        "walk"
-       ]
-      ]
-     },
-     "car": {
-      "min": "55~70",
-      "route": "경인고속도로 → 서울 도심 (출근 정체)"
-     }
-    },
-    {
-     "home": "juan",
-     "transit": {
-      "min": 52,
-      "route": "주안역 → 1호선 급행 → 용산역 → 도보 5분",
-      "transfers": "환승 없음",
-      "segs": [
-       [
-        "도보",
-        3,
-        "walk"
-       ],
-       [
-        "1호선",
-        44,
-        "line1"
-       ],
-       [
-        "도보",
-        5,
-        "walk"
-       ]
-      ]
-     },
-     "car": {
-      "min": "65~80",
-      "route": "경인고속도로 → 서울 도심 (출근 정체)"
-     }
-    }
-   ],
-   "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 급행 한 번에 약 45분입니다. 서울 회사 중 출근이 가장 짧습니다.",
-   "dutySum": "배터리 소재 사업 포트폴리오·중장기 전략, 시장조사, M&A·JV 검토, 원료 소싱 전략",
-   "short": "대기업 전략기획, 배터리 경력 요건이 걸림",
-   "expCheck": "요구 '유관 경력 5년 이상 + 배터리·배터리 소재 사업 경력' → 연차는 되지만 배터리 경력이 없어 미충족입니다. 도전 지원입니다.",
-   "duties": [
-    [
-     "사업 포트폴리오와 중장기 전략 수립",
-     "강점",
-     "중장기 로드맵·전략 설계 경험"
-    ],
-    [
-     "시장조사 및 분석",
-     "강점",
-     "수요조사·시장분석 다수"
-    ],
-    [
-     "M&A·JV 검토",
-     "연결 가능",
-     "타당성 분석은 강점, 딜 실무는 없음"
-    ],
-    [
-     "원료 소싱 및 네트워크 구축, 원료 영업기획",
-     "약함",
-     "원자재 소싱 경험 없음"
-    ]
-   ],
-   "reqs": [
-    [
-     "학사 이상(전공 무관)",
-     "충족",
-     ""
-    ],
-    [
-     "유관 경력 5년 이상",
-     "경계",
-     "기계연 포함 6년 4개월"
-    ],
-    [
-     "배터리·배터리 소재 사업 기획/연구/기술영업 경력",
-     "미충족",
-     "배터리 경력 없음"
-    ]
-   ],
-   "prefs": [
-    [
-     "국내외 신규법인(JV) 설립 경험",
-     "미충족",
-     ""
-    ],
-    [
-     "신사업 추진 전략기획 역량",
-     "충족",
-     "신규 사업 기획 경력"
-    ],
-    [
-     "해외 광산·제련 시설, 해외 원료 개발 경험",
-     "미충족",
-     ""
-    ]
-   ],
-   "biz": "옛 LS니꼬동제련으로 구리 제련이 본업이고, 황산니켈 등 배터리 소재로 사업을 넓히고 있는 LS그룹 계열사입니다.",
-   "recent": "울산 온산에 6,700억을 들여 황산니켈 설비를 늘리고 새만금 4만 톤 시설도 계획 중입니다. LS그룹 '비전 2030'에서 배터리 사업 핵심을 맡았습니다.",
-   "vision": "그룹이 배터리 소재를 차세대 성장축으로 밀고 있고 상장도 추진 중이라 전략기획 수요가 클 것으로 보입니다 [추정].",
-   "match": "전략기획 직무 자체는 잘 맞고 화학 전공도 도움이 됩니다. 배터리 경력이 없어 상시 인재풀에 넣어 두는 정도로 추천합니다.",
-   "risk": "배터리 소재 경력 필수라 서류 통과 가능성이 낮습니다.",
-   "salary": {
-    "range": "6,500~8,000만",
-    "basis": "구리 제련·소재 대기업 계열사 수준으로 추정했습니다 [추정].",
-    "src": [
-     "뉴스토마토",
-     "https://newstomato.com/ReadNews.aspx?no=1208079"
-    ]
-   },
-   "sources": [
-    [
-     "뉴스토마토",
-     "https://newstomato.com/ReadNews.aspx?no=1208079"
-    ],
-    [
-     "CEO스코어데일리 (2025.01)",
-     "https://ceoscoredaily.com/page/view/2025011412430635673"
-    ]
-   ],
-   "eval": {
-    "growth": [
-     "상",
-     "배터리 소재 투자 확대, 상장 추진."
-    ],
-    "stability": [
-     "상",
-     "구리 제련 국내 1위, LS그룹 핵심 계열사."
-    ],
-    "culture": [
-     "중",
-     "제조 대기업 문화 [추정]."
-    ],
-    "pay": [
-     "상",
-     "대기업 계열 [추정]."
-    ],
-    "welfare": [
-     "중상",
-     "블라인드 급여·복지 3.2, 잡플래닛 복지·급여 3.4. LS그룹 수준 복지"
-    ]
-   },
-   "added": "2026-10-23 15:10",
-   "ratings": {
-    "blind": [
-     3.4,
-     268,
-     "급여·복지 3.2 · 워라밸 3.4 · 경영진 2.3 · 추천 62% · 블라인드지수 TOP 32%",
-     "https://www.teamblind.com/kr/company/LSMnM/reviews"
-    ],
-    "jp": [
-     3.2,
-     249,
-     "복지·급여 3.4 · 워라밸 3.2 · 경영진 2.5",
-     "https://www.jobplanet.co.kr/companies/19571/reviews"
     ],
     "at": "2026-10-23"
    }
@@ -1526,7 +1100,7 @@ footer{font-size:.8rem;color:var(--muted)}
     }
    ],
    "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
-   "expCheck": "요구 '해운 분야 5년 이상' → 연차는 되지만 해운 분야 경력이 없어 요건 미충족입니다. 업무가 잘 맞아 도전 지원으로 분류했습니다.",
+   "expCheck": "요구 '해운 분야 5년 이상' → 현재 경력 4년 4개월로 연차도 8개월 부족하고 해운 경력이 없어 요건 미충족입니다. 업무가 잘 맞아 도전 지원으로 분류했습니다.",
    "duties": [
     [
      "글로벌 해운시장·경쟁·고객 동향 분석, 신규 사업 기회 발굴",
@@ -1754,7 +1328,7 @@ footer{font-size:.8rem;color:var(--muted)}
     }
    ],
    "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
-   "expCheck": "요구 '관련 경력 6~12년' → 기계연 포함 6년 4개월로 하한선입니다. 업무가 영업·사업개발 성격이라 기획 경력이 '관련 경력'으로 인정될지 불확실합니다.",
+   "expCheck": "요구 '관련 경력 6~12년' → 현재 경력 4년 4개월로 부족합니다. 업무도 영업·사업개발 성격이라 기획 경력이 '관련 경력'으로 인정될지 불확실합니다.",
    "duties": [
     [
      "반도체 전공정 소재 고객사·제품·시장 개발 및 사업 확장",
@@ -1785,8 +1359,8 @@ footer{font-size:.8rem;color:var(--muted)}
     ],
     [
      "관련 경력 6년 이상 12년 이하",
-     "경계",
-     "6년 4개월(기계연 포함). 사업개발 경력으로 보지 않을 수 있습니다."
+     "미충족",
+     "현재 경력 4년 4개월. 기계연을 붙여도 6년 4개월로 하한선이고, 사업개발 경력으로 보지 않을 수 있습니다."
     ],
     [
      "비즈니스 영어 중급 이상",
@@ -1964,7 +1538,7 @@ footer{font-size:.8rem;color:var(--muted)}
    "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
    "dutySum": "그룹 전사 전략기획, 사업 진단·개선, M&A 검토·실행, PMI, CEO 전략 과제 지원",
    "short": "연차 충족, 그룹 전략실 업무, 산업은 타깃 밖",
-   "expCheck": "요구 5년 이상 → 기계연 포함 6년 4개월로 충족합니다.",
+   "expCheck": "요구 5년 이상 → 현재 경력 4년 4개월로 8개월 부족해 경계입니다. 필요하면 기계연 경력을 보조로 덧붙일 수 있습니다.",
    "duties": [
     [
      "그룹 전사 전략기획",
@@ -1995,8 +1569,8 @@ footer{font-size:.8rem;color:var(--muted)}
    "reqs": [
     [
      "경력 5년 이상",
-     "충족",
-     "기계연 포함 6년 4개월"
+     "경계",
+     "현재 경력 4년 4개월 (8개월 부족)"
     ],
     [
      "초대졸 이상",
@@ -2073,6 +1647,446 @@ footer{font-size:.8rem;color:var(--muted)}
     ],
     "at": "2026-10-23"
    }
+  },
+  {
+   "fit": "상",
+   "company": "금호석유화학",
+   "size": "대기업 · 코스피 상장",
+   "title": "전략기획 상시 인재풀 등록",
+   "exp": "관련 경력 2년 이상",
+   "deadline": "상시 (마감 없음)",
+   "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50078127",
+   "place": "서울 중구 청계천로 100 (종각·을지로입구역)",
+   "lat": 37.5672,
+   "lon": 126.989,
+   "homeOpts": [
+    {
+     "home": "bupyeong",
+     "transit": {
+      "min": 61,
+      "route": "부평역 → 1호선 급행 → 종각역 → 도보 7분",
+      "transfers": "환승 없음",
+      "segs": [
+       [
+        "도보",
+        3,
+        "walk"
+       ],
+       [
+        "1호선",
+        51,
+        "line1"
+       ],
+       [
+        "도보",
+        7,
+        "walk"
+       ]
+      ]
+     },
+     "car": {
+      "min": "60~75",
+      "route": "경인고속도로 → 서울 도심 (출근 정체)"
+     }
+    },
+    {
+     "home": "bucheon",
+     "transit": {
+      "min": 52,
+      "route": "부천역 → 1호선 급행 → 종각역 → 도보 7분",
+      "transfers": "환승 없음",
+      "segs": [
+       [
+        "도보",
+        3,
+        "walk"
+       ],
+       [
+        "1호선",
+        42,
+        "line1"
+       ],
+       [
+        "도보",
+        7,
+        "walk"
+       ]
+      ]
+     },
+     "car": {
+      "min": "55~70",
+      "route": "경인고속도로 → 서울 도심 (출근 정체)"
+     }
+    },
+    {
+     "home": "juan",
+     "transit": {
+      "min": 68,
+      "route": "주안역 → 1호선 급행 → 종각역 → 도보 7분",
+      "transfers": "환승 없음",
+      "segs": [
+       [
+        "도보",
+        3,
+        "walk"
+       ],
+       [
+        "1호선",
+        58,
+        "line1"
+       ],
+       [
+        "도보",
+        7,
+        "walk"
+       ]
+      ]
+     },
+     "car": {
+      "min": "65~80",
+      "route": "경인고속도로 → 서울 도심 (출근 정체)"
+     }
+    }
+   ],
+   "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 한 번에 약 1시간으로 두 사람 시간이 가장 고르게 나뉩니다. 내 출근을 줄이고 싶으면 부천(내 약 45~50분, 찬규 30분)입니다.",
+   "expCheck": "요구 2년 이상 → 현재 경력 4년 4개월로 충분히 충족합니다. 지금 공고 중 연차 요건이 가장 여유 있습니다.",
+   "duties": [
+    [
+     "회사의 중장기 전략 수립",
+     "강점",
+     "KSTAR 20년 로드맵, 충남 해양산업 10년 전략을 직접 설계했습니다."
+    ],
+    [
+     "신규사업·M&A 검토, 조직·규정 관리, 투자 심의",
+     "연결 가능",
+     "B/C·타당성 분석은 투자 심의와 같은 뿌리입니다. M&A 실무는 없습니다."
+    ],
+    [
+     "전략 실행·검토를 위한 성과관리(PM)",
+     "강점",
+     "복합빔 5대 KPI, KSTAR 성과지표 체계를 만들었습니다."
+    ],
+    [
+     "투자 및 비용예산 관리, 조직문화 관리",
+     "강점",
+     "1.8조 KSTAR 예산 설계, 연 46.5억 프로젝트 손익·현금흐름 관리 경험이 있습니다."
+    ],
+    [
+     "동반성장 등 대외 업무",
+     "연결 가능",
+     "정부·지자체·전문가위원회 대응 경험으로 설명할 수 있습니다."
+    ],
+    [
+     "공시·이사회·주주총회 등 거버넌스, 국내외 IR",
+     "약함",
+     "상장사 공시·IR 경험은 없습니다."
+    ]
+   ],
+   "reqs": [
+    [
+     "4년제 대학 이상 졸업",
+     "충족",
+     "화학생명공학 학사"
+    ],
+    [
+     "지원 분야 관련 경력 24개월 이상(인턴·아르바이트 제외)",
+     "충족",
+     "기획 4년 4개월. 중부발전 인턴은 산입되지 않습니다."
+    ],
+    [
+     "해외여행 결격사유 없음",
+     "충족",
+     ""
+    ]
+   ],
+   "prefs": [
+    [
+     "공고에 우대사항 없음",
+     "",
+     ""
+    ]
+   ],
+   "biz": "합성고무·합성수지(ABS)·NB라텍스가 주력인 석유화학 회사입니다. 의료용 장갑 원료 NB라텍스는 세계 1위권입니다.",
+   "recent": "2026년 2분기 영업이익 약 1,803억(+177%) 전망이 나올 만큼 업황 대비 실적이 좋습니다.",
+   "vision": "포스코퓨처엠과 리튬메탈전지·CNT 도전재, CCUS, 재활용 ABS 등 배터리·친환경 소재로 사업을 넓히고 있습니다.",
+   "match": "주요업무 6개 중 4개가 진선 님 강점과 겹치고 연차 요건도 충족합니다. 화학 전공이라 산업 이해도 설명하기 쉽습니다. 마감이 없으니 바로 등록해 두는 걸 추천합니다.",
+   "risk": "인재풀 등록이라 결원이 생겨야 연락이 옵니다. 공시·IR은 약점이니 면접 전에 사업보고서를 읽어 두세요.",
+   "sources": [
+    [
+     "다음 뉴스 (2026.08)",
+     "https://v.daum.net/v/20260803133613120"
+    ]
+   ],
+   "salary": {
+    "range": "6,500~7,500만",
+    "basis": "직원 평균 7,315만, 신입 초봉 4,992만(자소설닷컴 기준). 6년차 경력 입사면 대리 말~과장 초 직급으로 보고 추정했습니다.",
+    "src": [
+     "자소설닷컴",
+     "https://jasoseol.com/companies/9594"
+    ]
+   },
+   "short": "연차 충족, 업무 6개 중 4개 강점",
+   "added": "2026-10-23 10:40",
+   "dutySum": "중장기 전략, 신규사업·M&A 검토, 투자심의, 성과관리, 예산, IR·공시",
+   "eval": {
+    "growth": [
+     "중상",
+     "배터리 소재(CNT·리튬메탈)·친환경으로 확장 중, 본업은 석유화학 업황을 탑니다."
+    ],
+    "stability": [
+     "상",
+     "NB라텍스 세계 1위권, 2026년 2분기 영업이익 약 1,800억 전망."
+    ],
+    "culture": [
+     "중",
+     "보수적인 화학 대기업 문화로 알려져 있습니다 [추정]. 잡플래닛 리뷰를 꼭 확인하세요."
+    ],
+    "pay": [
+     "상",
+     "평균 7,315만"
+    ],
+    "welfare": [
+     "상",
+     "블라인드 급여·복지 3.6, 잡플래닛 복지·급여 3.5. 리뷰에서 처우·워라밸 평이 좋은 편"
+    ]
+   },
+   "ratings": {
+    "blind": [
+     3.6,
+     428,
+     "급여·복지 3.6 · 워라밸 3.8 · 경영진 2.8",
+     "https://www.teamblind.com/kr/company/금호석유화학/reviews"
+    ],
+    "jp": [
+     3.5,
+     270,
+     "복지·급여 3.5 · 워라밸 3.8 · 경영진 2.9",
+     "https://www.jobplanet.co.kr/companies/43384/reviews"
+    ],
+    "at": "2026-10-23"
+   }
+  },
+  {
+   "fit": "중",
+   "company": "LS MnM",
+   "size": "대기업 · LS그룹",
+   "title": "EV배터리 소재사업 전략기획 (상시)",
+   "exp": "유관 경력 5년 이상, 배터리 소재 경력",
+   "deadline": "상시",
+   "url": "https://www.jobkorea.co.kr/Recruit/GI_Read/50069531",
+   "place": "서울 용산구 LS용산타워 (용산역·신용산역)",
+   "lat": 37.5297,
+   "lon": 126.968,
+   "homeOpts": [
+    {
+     "home": "bupyeong",
+     "transit": {
+      "min": 45,
+      "route": "부평역 → 1호선 급행 → 용산역 → 도보 5분",
+      "transfers": "환승 없음",
+      "segs": [
+       [
+        "도보",
+        3,
+        "walk"
+       ],
+       [
+        "1호선",
+        37,
+        "line1"
+       ],
+       [
+        "도보",
+        5,
+        "walk"
+       ]
+      ]
+     },
+     "car": {
+      "min": "60~75",
+      "route": "경인고속도로 → 서울 도심 (출근 정체)"
+     }
+    },
+    {
+     "home": "bucheon",
+     "transit": {
+      "min": 36,
+      "route": "부천역 → 1호선 급행 → 용산역 → 도보 5분",
+      "transfers": "환승 없음",
+      "segs": [
+       [
+        "도보",
+        3,
+        "walk"
+       ],
+       [
+        "1호선",
+        28,
+        "line1"
+       ],
+       [
+        "도보",
+        5,
+        "walk"
+       ]
+      ]
+     },
+     "car": {
+      "min": "55~70",
+      "route": "경인고속도로 → 서울 도심 (출근 정체)"
+     }
+    },
+    {
+     "home": "juan",
+     "transit": {
+      "min": 52,
+      "route": "주안역 → 1호선 급행 → 용산역 → 도보 5분",
+      "transfers": "환승 없음",
+      "segs": [
+       [
+        "도보",
+        3,
+        "walk"
+       ],
+       [
+        "1호선",
+        44,
+        "line1"
+       ],
+       [
+        "도보",
+        5,
+        "walk"
+       ]
+      ]
+     },
+     "car": {
+      "min": "65~80",
+      "route": "경인고속도로 → 서울 도심 (출근 정체)"
+     }
+    }
+   ],
+   "homeWhy": "부평은 찬규 자차 20분, 나는 1호선 급행 한 번에 약 45분입니다. 서울 회사 중 출근이 가장 짧습니다.",
+   "dutySum": "배터리 소재 사업 포트폴리오·중장기 전략, 시장조사, M&A·JV 검토, 원료 소싱 전략",
+   "short": "대기업 전략기획, 배터리 경력 요건이 걸림",
+   "expCheck": "요구 '유관 경력 5년 이상 + 배터리·배터리 소재 사업 경력' → 현재 경력 4년 4개월로 연차가 8개월 부족하고, 배터리 경력도 없어 도전 지원입니다.",
+   "duties": [
+    [
+     "사업 포트폴리오와 중장기 전략 수립",
+     "강점",
+     "중장기 로드맵·전략 설계 경험"
+    ],
+    [
+     "시장조사 및 분석",
+     "강점",
+     "수요조사·시장분석 다수"
+    ],
+    [
+     "M&A·JV 검토",
+     "연결 가능",
+     "타당성 분석은 강점, 딜 실무는 없음"
+    ],
+    [
+     "원료 소싱 및 네트워크 구축, 원료 영업기획",
+     "약함",
+     "원자재 소싱 경험 없음"
+    ]
+   ],
+   "reqs": [
+    [
+     "학사 이상(전공 무관)",
+     "충족",
+     ""
+    ],
+    [
+     "유관 경력 5년 이상",
+     "경계",
+     "현재 경력 4년 4개월 (8개월 부족)"
+    ],
+    [
+     "배터리·배터리 소재 사업 기획/연구/기술영업 경력",
+     "미충족",
+     "배터리 경력 없음"
+    ]
+   ],
+   "prefs": [
+    [
+     "국내외 신규법인(JV) 설립 경험",
+     "미충족",
+     ""
+    ],
+    [
+     "신사업 추진 전략기획 역량",
+     "충족",
+     "신규 사업 기획 경력"
+    ],
+    [
+     "해외 광산·제련 시설, 해외 원료 개발 경험",
+     "미충족",
+     ""
+    ]
+   ],
+   "biz": "옛 LS니꼬동제련으로 구리 제련이 본업이고, 황산니켈 등 배터리 소재로 사업을 넓히고 있는 LS그룹 계열사입니다.",
+   "recent": "울산 온산에 6,700억을 들여 황산니켈 설비를 늘리고 새만금 4만 톤 시설도 계획 중입니다. LS그룹 '비전 2030'에서 배터리 사업 핵심을 맡았습니다.",
+   "vision": "그룹이 배터리 소재를 차세대 성장축으로 밀고 있고 상장도 추진 중이라 전략기획 수요가 클 것으로 보입니다 [추정].",
+   "match": "전략기획 직무 자체는 잘 맞고 화학 전공도 도움이 됩니다. 배터리 경력이 없어 상시 인재풀에 넣어 두는 정도로 추천합니다.",
+   "risk": "배터리 소재 경력 필수라 서류 통과 가능성이 낮습니다.",
+   "salary": {
+    "range": "6,500~8,000만",
+    "basis": "구리 제련·소재 대기업 계열사 수준으로 추정했습니다 [추정].",
+    "src": [
+     "뉴스토마토",
+     "https://newstomato.com/ReadNews.aspx?no=1208079"
+    ]
+   },
+   "sources": [
+    [
+     "뉴스토마토",
+     "https://newstomato.com/ReadNews.aspx?no=1208079"
+    ],
+    [
+     "CEO스코어데일리 (2025.01)",
+     "https://ceoscoredaily.com/page/view/2025011412430635673"
+    ]
+   ],
+   "eval": {
+    "growth": [
+     "상",
+     "배터리 소재 투자 확대, 상장 추진."
+    ],
+    "stability": [
+     "상",
+     "구리 제련 국내 1위, LS그룹 핵심 계열사."
+    ],
+    "culture": [
+     "중",
+     "제조 대기업 문화 [추정]."
+    ],
+    "pay": [
+     "상",
+     "대기업 계열 [추정]."
+    ],
+    "welfare": [
+     "중상",
+     "블라인드 급여·복지 3.2, 잡플래닛 복지·급여 3.4. LS그룹 수준 복지"
+    ]
+   },
+   "added": "2026-10-23 15:10",
+   "ratings": {
+    "blind": [
+     3.4,
+     268,
+     "급여·복지 3.2 · 워라밸 3.4 · 경영진 2.3 · 추천 62% · 블라인드지수 TOP 32%",
+     "https://www.teamblind.com/kr/company/LSMnM/reviews"
+    ],
+    "jp": [
+     3.2,
+     249,
+     "복지·급여 3.4 · 워라밸 3.2 · 경영진 2.5",
+     "https://www.jobplanet.co.kr/companies/19571/reviews"
+    ],
+    "at": "2026-10-23"
+   }
   }
  ],
  "updatedAt": "2026-10-23 15:10",
@@ -2089,7 +2103,7 @@ footer{font-size:.8rem;color:var(--muted)}
   }
  ],
  "excluded": "이번에 확인하고 뺀 공고: 한화에어로스페이스 사업전략·M&A(경력 8년 이상, 판교), 한화 해양·에너지 사업개발(10년 이상), 한화 LNG 사업개발(LNG 투자 경력 필수), LS엠트론 기술기획(기계·산업공학 전공 필수), 희성피엠텍·애경케미칼·경인양행·강남제비스코(기획 직무 없음), 마크로젠 경영기획(바이오), 에코프로(청주), 헤리트·에프앤비네트웍스(소규모).",
- "priority": "순위 기준: ① 좋은 회사: 연봉, 회사의 성장성·미래 가능성 ② 내 전공(화학생명공학)이나 해봤던 사업(국책과제·우주·국방·에너지 기획)과 이어져 접근하기 쉬운 자리 ③ 자격요건 충족 ④ 복지(좋으면 가산점) ⑤ 통근. 서울·인천·경기 어디든 출퇴근만 편하면 됩니다."
+ "priority": "순위 기준: ① 좋은 회사: 연봉, 회사의 성장성·미래 가능성 ② 내 전공(화학생명공학)이나 해봤던 사업(국책과제·우주·국방·에너지 기획)과 이어져 접근하기 쉬운 자리 ③ 자격요건 충족 ④ 복지(좋으면 가산점) ⑤ 통근. 서울·인천·경기 어디든 출퇴근만 편하면 됩니다. 상시 채용·인재풀 공고는 마감이 없어 맨 아래에 둡니다."
 }</script>
 
 <script>
@@ -2152,6 +2166,8 @@ footer{font-size:.8rem;color:var(--muted)}
   function rcls(v){return v>=3.4?'good':v>=3.0?'mid':'bad'}
   function rt(j){const r=j.ratings;if(!r)return '-';const f=(k,n)=>r[k]?`<span class="tag ${rcls(r[k][0])}" title="${esc(r[k][2])} (리뷰 ${r[k][1]}개)">${n} ${r[k][0].toFixed(1)}</span>`:'';return `<div class="evals">${f('blind','블라인드')}${f('jp','잡플래닛')}</div>`}
   function rtCard(j){const r=j.ratings;if(!r)return '';const row=(k,n)=>r[k]?`<div><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">${n} <span class="tag ${rcls(r[k][0])}">${r[k][0].toFixed(1)} / 5</span> <span class="sub">리뷰 ${r[k][1].toLocaleString()}개</span></span><span class="sub">${esc(r[k][2])} · <a href="${esc(r[k][3])}" target="_blank" rel="noopener">보기</a></span></div>`:'';return `<div class="sect"><h3>직원 평점 <span class="sub">(${esc(r.at)} 기준)</span></h3><div class="evalgrid">${row('blind','블라인드')}${row('jp','잡플래닛')}</div></div>`}
+  function dleft(j){const m=/(\d{1,2})\/(\d{1,2})/.exec(j.deadline||'');if(!m)return null;const now=new Date(Date.now()+9*3600e3);const y=now.getUTCFullYear();let t=Date.UTC(y,+m[1]-1,+m[2]);const today=Date.UTC(y,now.getUTCMonth(),now.getUTCDate());if(t<today-180*864e5)t=Date.UTC(y+1,+m[1]-1,+m[2]);return Math.round((t-today)/864e5)}
+  function dueHtml(j,pre){const n=dleft(j);const soon=n!==null&&n>=0&&n<=7;return `<span class="due${soon?' soon':''}">${pre||''}${esc(j.deadline)}${soon?`<span class="dday">${n===0?'D-DAY':'D-'+n}</span>`:''}</span>`}
   const EVL={"pay":"연봉","growth":"성장성","stability":"안정성","culture":"평판·문화","welfare":"복지"};
   function evtag(v){return ({"상":"good","중상":"good","중":"mid","중하":"bad","하":"bad"})[v]||"unk"}
   function render(){
@@ -2167,7 +2183,7 @@ footer{font-size:.8rem;color:var(--muted)}
         <summary class="top" onclick="event.preventDefault()"><span class="num">${i+1}</span><div class="t">
           <div class="meta"><span class="pill ${j.fit}">적합도 ${j.fit}</span><span>${esc(j.size)}</span>${j.salary?`<span>예상 연봉 ${esc(j.salary.range)}</span>`:''}</div>
           <h2>${esc(j.company)} · ${esc(j.title)}${isNew(j)?'<span class="newb">NEW</span>':''}</h2>
-          <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span><span class="due">마감 ${esc(j.deadline)}</span></div>
+          <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span>${dueHtml(j,'마감 ')}</div>
         </div></summary>
         <div class="homes" role="group" aria-label="집 위치 선택"><span class="lab">집을 어디에 구하면</span>${j.homeOpts.map((o,k)=>`<button type="button" id="h${i}_${k}" data-i="${i}" data-k="${k}" aria-pressed="${k===0}">${esc(D.homes[o.home].name)}${k===0?'<span class="rec">추천</span>':''}</button>`).join('')}</div>
         <p class="homewhy">${esc(j.homeWhy||'')}</p>
@@ -2206,7 +2222,7 @@ footer{font-size:.8rem;color:var(--muted)}
         const bad=cnt(j.reqs,'미충족'),mid=cnt(j.reqs,'경계');
         const req=bad?`<span class="tag bad">미충족 ${bad}</span>`:(mid?`<span class="tag mid">경계 ${mid}</span>`:`<span class="tag good">모두 충족</span>`);
         const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}" title="${esc(j.eval[k][1])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
-        return `<tr class="row${isNew(j)?' isnew':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:200px"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:220px">${esc(j.dutySum||'')}</td><td><div class="evals">${evs}</div></td><td class="num2">${rt(j)}</td><td><span class="pill ${j.fit}">${j.fit}</span></td><td>${req}</td><td class="num2">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2">${j.salary?esc(j.salary.range):'-'}</td><td class="num2">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap">${esc(j.deadline)}</td></tr>`}).join('')+'</tbody>';
+        return `<tr class="row${isNew(j)?' isnew':''}${(()=>{const n=dleft(j);return n!==null&&n>=0&&n<=7?' soonrow':''})()}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:200px"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:220px">${esc(j.dutySum||'')}</td><td><div class="evals">${evs}</div></td><td class="num2">${rt(j)}</td><td><span class="pill ${j.fit}">${j.fit}</span></td><td>${req}</td><td class="num2">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2">${j.salary?esc(j.salary.range):'-'}</td><td class="num2">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
