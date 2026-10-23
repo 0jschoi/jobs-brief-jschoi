@@ -72,8 +72,8 @@ tr.isnew td:first-child{box-shadow:inset 3px 0 0 var(--steel)}
 .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
 .overview{width:100%;border-collapse:collapse;font-size:.86rem;min-width:1180px}
 .overview .evals{display:flex;flex-wrap:wrap;gap:4px;min-width:150px}
-.overview th{text-align:left;font-size:.75rem;color:var(--muted);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
-.overview td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.overview th{text-align:left;font-size:.75rem;color:var(--muted);font-weight:600;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.overview td{padding:10px 8px;border-top:1px solid var(--line);vertical-align:top}
 .overview tr.row{cursor:pointer}
 .overview tr.row:hover td{background:var(--bg)}
 .overview .co{font-weight:600}
@@ -140,6 +140,16 @@ tr.row.soonrow td.due{background:var(--bad-bg)}
 .others{font-size:.85rem;color:var(--muted)}
 .empty{color:var(--muted)}
 footer{font-size:.8rem;color:var(--muted)}
+.stars{display:flex;gap:1px;white-space:nowrap}
+.stars button{font:inherit;font-size:.95rem;line-height:1;padding:2px 1px;background:none;border:0;color:var(--line);cursor:pointer}
+.stars button.on{color:#e0a100}
+.stars button:disabled{cursor:default}
+.stars button:not(:disabled):hover{transform:scale(1.15)}
+.improw{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.improw .who{font-size:.72rem;color:var(--muted);width:2.4em}
+.stars.mine button:not(:disabled){color:var(--line)}
+.stars.mine button.on{color:#e0a100}
+
 .fitbox strong{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:999px;margin-right:6px}
 .fitok{background:var(--hi-bg);color:var(--hi)}
 .fitno{background:var(--bad-bg);color:var(--bad)}
@@ -2396,7 +2406,11 @@ footer{font-size:.8rem;color:var(--muted)}
   }
  ],
  "excluded": "이번에 확인하고 뺀 공고: 한화에어로스페이스 사업전략·M&A(경력 8년 이상, 판교), 한화 해양·에너지 사업개발(10년 이상), 한화 LNG 사업개발(LNG 투자 경력 필수), LS엠트론 기술기획(기계·산업공학 전공 필수), 희성피엠텍·애경케미칼·경인양행·강남제비스코(기획 직무 없음), 마크로젠 경영기획(송도, 업무는 맞지만 평균 연봉 약 4,700만으로 희망보다 낮고 블라인드 2.3·잡플래닛 2.5로 평점이 낮음), 에코프로(청주), 헤리트·에프앤비네트웍스(소규모).",
- "priority": "순위: ① 연봉·성장성 ② 전공·경험 연관 ③ 자격요건 ④ 통근 ⑤ 복지 · 상시·인재풀은 맨 아래 · 표 칸에 마우스를 올리면 자세한 설명이 나와요."
+ "priority": "순위: ① 연봉·성장성 ② 전공·경험 연관 ③ 자격요건 ④ 통근 ⑤ 복지 · 상시·인재풀은 맨 아래 · 표 칸에 마우스를 올리면 자세한 설명이 나와요.",
+ "importance": {
+  "js": {},
+  "ck": {}
+ }
 }</script>
 
 <script>
@@ -2473,6 +2487,16 @@ footer{font-size:.8rem;color:var(--muted)}
     const svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(j.company)} 연도별 영업이익"><line x1="0" x2="${W}" y1="${y0}" y2="${y0}" stroke="var(--line)"/>${bars}</svg>`;
     const tbl=`<table class="chk" style="width:100%"><tr><th style="text-align:left">연도</th><th style="text-align:right">매출</th><th style="text-align:right">영업이익</th><th style="text-align:right">이익률</th></tr>${R.map(r=>`<tr><td>${r[0]}</td><td style="text-align:right" class="num2">${fmtE(r[1])}</td><td style="text-align:right" class="num2">${fmtE(r[2])}</td><td style="text-align:right" class="num2">${r[1]?(r[2]/r[1]*100).toFixed(1)+'%':'-'}</td></tr>`).join('')}</table>`;
     return `<div class="sect"><h3>실적: 영업이익 추이 <span class="sub">(${esc(f.basis)} 기준, 단위 원)</span></h3><div class="finbox"><div>${svg}</div><div>${tbl}<p class="sub" style="margin-top:8px">${esc(f.note)}</p><p class="sub">출처: ${f.src.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join(' · ')}</p></div></div></div>`}
+  function gno(j){const m=/(\d{6,})/.exec(j.url||'');return m?m[1]:String(j.company+j.title).replace(/[^\w가-힣]/g,'').slice(0,40)}
+  const IMP={js:Object.assign({},(D.importance||{}).js||{}),ck:Object.assign({},(D.importance||{}).ck||{})};let ckDb=null,myKey=null;
+  const WHO={js:'진선',ck:'찬규'};
+  function starRow(g,key){const v=IMP[key][g]||0,mine=myKey===key;return `<div class="improw"><span class="who">${WHO[key]}</span><span class="stars${mine?' mine':''}">${[1,2,3,4,5].map(n=>`<button type="button" class="st${n<=v?' on':''}" data-gno="${g}" data-k="${key}" data-n="${n}" aria-label="${WHO[key]} 중요도 ${n}점" ${mine?'':'disabled'}>★</button>`).join('')}</span></div>`}
+  function ckHtml(g){return starRow(g,'js')+starRow(g,'ck')}
+  function paintStars(){document.querySelectorAll('.ckcell').forEach(td=>{td.innerHTML=ckHtml(td.dataset.gno)})}
+  document.addEventListener('click',async e=>{const b=e.target.closest('.stars button');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,key=b.dataset.k,n=+b.dataset.n;if(key!==myKey)return;const v=(IMP[key][g]||0)===n?0:n;IMP[key][g]=v;paintStars();
+    try{await ckDb.collection('imp_'+key).doc(g).set({stars:v,at:new Date().toISOString()})}catch(err){if(err&&err.code==='invalid_argument'){myKey=null;paintStars()}}},true);
+  (async()=>{try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db');if(!db)return;ckDb=db;const u=await window.claude.use('user');const own=u?await u.isOwner():false;const can=u?await u.can('data.write'):null;myKey=own?'js':(can===false?null:'ck');paintStars();
+    ['js','ck'].forEach(key=>db.collection('imp_'+key).onSnapshot(snap=>{const o={};snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.stars==='number')o[x.id]=Math.max(0,Math.min(5,Math.round(v.stars)))});IMP[key]=o;paintStars()},()=>{}))}catch(_){}})();
   const EVL={"pay":"연봉","growth":"성장성","stability":"안정성","culture":"평판·문화","welfare":"복지"};
   function evtag(v){return ({"상":"good","중상":"good","중":"mid","중하":"bad","하":"bad"})[v]||"unk"}
   function render(){
@@ -2523,7 +2547,7 @@ footer{font-size:.8rem;color:var(--muted)}
     const t=document.getElementById('overview');
     if(!d.jobs.length){t.innerHTML='';return}
     const cnt=(rows,k)=>(rows||[]).filter(r=>r[1]===k).length;
-    t.innerHTML=`<thead><tr><th>#</th><th>회사 · 포지션</th><th>주요 담당업무 (공고 원문)</th><th>회사 평가</th><th>평점<br>블라인드 · 잡플래닛</th><th>적합도</th><th>요건</th><th>강점 업무</th><th>예상 연봉</th><th>출근 (추천 동네)</th><th>마감</th></tr></thead><tbody>`+
+    t.innerHTML=`<thead><tr><th>#</th><th>중요도</th><th>회사 · 포지션</th><th>주요 담당업무 (공고 원문)</th><th>회사 평가</th><th>평점<br>블라인드 · 잡플래닛</th><th>적합도</th><th>요건</th><th>강점 업무</th><th>예상 연봉</th><th>출근 (추천 동네)</th><th>마감</th></tr></thead><tbody>`+
       d.jobs.map((j,i)=>{const o=j.homeOpts[0],H0=D.homes[o.home];
         const bad=cnt(j.reqs,'미충족'),mid=cnt(j.reqs,'경계');
         const req=bad?`<span class="tag bad">미충족 ${bad}</span>`:(mid?`<span class="tag mid">경계 ${mid}</span>`:`<span class="tag good">모두 충족</span>`);
@@ -2539,7 +2563,7 @@ footer{font-size:.8rem;color:var(--muted)}
         const tipCm='내 대중교통 '+o.transit.min+'분 ('+o.transit.transfers+')\n'+o.transit.route+'\n내 자차 '+o.car.min+'분\n찬규 자차 '+H0.pcar+'분 ('+H0.name+' → 인천공장)\n\n'+(j.homeWhy||'');
         const tipDl=j.deadline+(dueAt(j)!==null?'\n'+ddayTxt(dleft(j))+' · '+remainTxt(j):'\n마감 없음 (상시)');
         const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
-        return `<tr class="row${isNew(j)?' isnew':''}${isSoon(j)?' soonrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td style="min-width:200px" data-tip="${T(tipCo)}"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:220px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td data-tip="${T(tipEv)}"><div class="evals">${evs}</div></td><td class="num2" data-tip="${T(tipRt)}">${rt(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
+        return `<tr class="row${isNew(j)?' isnew':''}${isSoon(j)?' soonrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td data-tip="${T(tipEv)}"><div class="evals">${evs}</div></td><td class="num2" data-tip="${T(tipRt)}">${rt(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
