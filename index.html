@@ -4851,7 +4851,7 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
   }
  ],
  "excluded": "이번에 확인하고 뺀 공고: 피에스케이홀딩스 전략기획(인턴 후 정규직 전환형, 51~300명), 한국카본 공채(경남 밀양), 대웅제약 바이오시밀러 사업전략(제약·바이오 경력 필수), 차바이오텍 사업기획(잡플래닛 2.4·평균 약 3,800만), 덕일산업 전략기획(계열사 관리 위주), 덕산넵코어스(대전), 에코프로(청주). CR그룹(조선내화·CR홀딩스) 공채(11/08)는 모집 직무를 채용 사이트에서만 볼 수 있어 경영기획 경력직 여부를 확인하지 못했습니다.",
- "priority": "순위: ① 연봉·성장성 ② 전공·경험 연관 ③ 자격요건 ④ 통근 ⑤ 복지 · 상시·인재풀은 맨 아래 · 표 칸에 마우스를 올리면 자세한 설명이 나와요.",
+ "priority": "정렬: 마감이 가까운 순 · 상시·수시·인재풀은 맨 아래 고정 · 중요도 별점은 하나로 함께 매겨요 · 표 칸에 마우스를 올리면 자세한 설명이 나와요.",
  "importance": {
   "js": {},
   "ck": {}
@@ -4920,6 +4920,7 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
   function rtCard(j){const r=j.ratings;if(!r)return '';const row=(k,n)=>r[k]?`<div><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">${n} <span class="tag ${rcls(r[k][0])}">${r[k][0].toFixed(1)} / 5</span> <span class="sub">리뷰 ${r[k][1].toLocaleString()}개</span></span><span class="sub">${esc(r[k][2])} · <a href="${esc(r[k][3])}" target="_blank" rel="noopener">보기</a></span></div>`:'';return `<div class="sect"><h3>직원 평점 <span class="sub">(${esc(r.at)} 기준)</span></h3><div class="evalgrid">${row('blind','블라인드')}${row('jp','잡플래닛')}</div></div>`}
   function dueAt(j){const m=/(\d{1,2})\/(\d{1,2})/.exec(j.deadline||'');if(!m)return null;const hm=/(\d{1,2}):(\d{2})/.exec(j.deadline)||[0,23,59];const now=Date.now();const y=new Date(now+9*3600e3).getUTCFullYear();let t=Date.UTC(y,+m[1]-1,+m[2],+hm[1]-9,+hm[2]);if(t<now-180*864e5)t=Date.UTC(y+1,+m[1]-1,+m[2],+hm[1]-9,+hm[2]);return t}
   function dleft(j){const t=dueAt(j);if(t===null)return null;const kst=x=>{const d=new Date(x+9*3600e3);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate())};return Math.round((kst(t)-kst(Date.now()))/864e5)}
+  (function(){const always=j=>/상시|인재풀|수시|pool/i.test((j.deadline||'')+' '+(j.title||''))||dueAt(j)===null;const A=D.jobs.map((j,i)=>({j,i,a:always(j),t:dueAt(j)}));A.sort((x,y)=>(x.a-y.a)||(x.a?x.i-y.i:(x.t-y.t)||(x.i-y.i)));D.jobs=A.map(x=>x.j)})();
   function isSoon(j){const n=dleft(j);return n!==null&&n>=0&&n<=7}
   function ddayTxt(n){return n<0?'마감됨':n===0?'D-DAY':'D-'+n}
   function remainTxt(j){const t=dueAt(j);if(t===null)return '';const ms=t-Date.now();if(ms<=0)return '마감됨';const h=Math.floor(ms/3600e3),d=Math.floor(h/24),hh=h%24,mm=Math.floor(ms%3600e3/60e3);return d>0?`${d}일 ${hh}시간 남음`:`${hh}시간 ${mm}분 남음`}
@@ -4933,24 +4934,23 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
     const tbl=`<table class="chk" style="width:100%"><tr><th style="text-align:left">연도</th><th style="text-align:right">매출</th><th style="text-align:right">영업이익</th><th style="text-align:right">이익률</th></tr>${R.map(r=>`<tr><td>${r[0]}</td><td style="text-align:right" class="num2">${fmtE(r[1])}</td><td style="text-align:right" class="num2">${fmtE(r[2])}</td><td style="text-align:right" class="num2">${r[1]?(r[2]/r[1]*100).toFixed(1)+'%':'-'}</td></tr>`).join('')}</table>`;
     return `<div class="sect"><h3>실적: 영업이익 추이 <span class="sub">(${esc(f.basis)} 기준, 단위 원)</span></h3><div class="finbox"><div>${svg}</div><div>${tbl}<p class="sub" style="margin-top:8px">${esc(f.note)}</p><p class="sub">출처: ${f.src.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join(' · ')}</p></div></div></div>`}
   function gno(j){const m=/(\d{6,})/.exec(j.url||'');return m?m[1]:String(j.company+j.title).replace(/[^\w가-힣]/g,'').slice(0,40)}
-  const IMP={js:Object.assign({},(D.importance||{}).js||{}),ck:Object.assign({},(D.importance||{}).ck||{})};let ckDb=null,myKey=null;
-  const WHO={js:'진선',ck:'찬규'};
-  function starRow(g,key){const v=IMP[key][g]||0,mine=myKey===key;return `<div class="improw"><span class="who">${WHO[key]}</span><span class="stars${mine?' mine':''}">${[1,2,3,4,5].map(n=>`<button type="button" class="st${n<=v?' on':''}" data-gno="${g}" data-k="${key}" data-n="${n}" aria-label="${WHO[key]} 중요도 ${n}점" ${mine?'':'disabled'}>★</button>`).join('')}</span></div>`}
-  function ckHtml(g){return starRow(g,'js')+starRow(g,'ck')}
+  const IMP0=(D.importance||{}),IMP={};[IMP0.js||{},IMP0.ck||{},IMP0.all||{}].forEach(o=>Object.keys(o).forEach(g=>{IMP[g]=Math.max(IMP[g]||0,o[g]||0)}));let ckDb=null,canW=false;
+  function starRow(g){const v=IMP[g]||0;return `<div class="improw"><span class="stars${canW?' mine':''}">${[1,2,3,4,5].map(n=>`<button type="button" class="st${n<=v?' on':''}" data-gno="${g}" data-n="${n}" aria-label="중요도 ${n}점" ${canW?'':'disabled'}>★</button>`).join('')}</span></div>`}
+  function ckHtml(g){return starRow(g)}
   function paintStars(){document.querySelectorAll('.ckcell').forEach(td=>{td.innerHTML=ckHtml(td.dataset.gno);const tr=td.closest('tr');if(tr)tr.classList.toggle('imprw',isImp(td.dataset.gno))});
-    document.querySelectorAll('details.card[data-gno]').forEach(c=>{const g=c.dataset.gno,on=isImp(g);c.classList.toggle('impcard',on);const b=c.querySelector('.impb');if(b){b.hidden=!on;if(on){const a=IMP.js[g]||0,k=IMP.ck[g]||0;b.textContent='★ 중요 · '+[a?'진선 '+a:'',k?'찬규 '+k:''].filter(Boolean).join(' · ')}}})}
-  function isImp(g){return (IMP.js[g]||0)>=4||(IMP.ck[g]||0)>=4}
-  document.addEventListener('click',async e=>{const b=e.target.closest('.stars button');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,key=b.dataset.k,n=+b.dataset.n;if(key!==myKey)return;const v=(IMP[key][g]||0)===n?0:n;IMP[key][g]=v;paintStars();
-    try{await ckDb.collection('imp_'+key).doc(g).set({stars:v,at:new Date().toISOString()})}catch(err){if(err&&err.code==='invalid_argument'){myKey=null;paintStars()}}},true);
-  (async()=>{try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db');if(!db)return;ckDb=db;const u=await window.claude.use('user');const own=u?await u.isOwner():false;const can=u?await u.can('data.write'):null;myKey=own?'js':(can===false?null:'ck');paintStars();
-    ['js','ck'].forEach(key=>db.collection('imp_'+key).onSnapshot(snap=>{const o={};snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.stars==='number')o[x.id]=Math.max(0,Math.min(5,Math.round(v.stars)))});IMP[key]=o;paintStars()},()=>{}))}catch(_){}})();
+    document.querySelectorAll('details.card[data-gno]').forEach(c=>{const g=c.dataset.gno,on=isImp(g);c.classList.toggle('impcard',on);const b=c.querySelector('.impb');if(b){b.hidden=!on;if(on)b.textContent='★ 중요 '+(IMP[g]||0)}})}
+  function isImp(g){return (IMP[g]||0)>=4}
+  document.addEventListener('click',async e=>{const b=e.target.closest('.stars button');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,n=+b.dataset.n;const v=(IMP[g]||0)===n?0:n;IMP[g]=v;paintStars();
+    try{await ckDb.collection('imp').doc(g).set({stars:v,at:new Date().toISOString()})}catch(err){if(err&&err.code==='invalid_argument'){canW=false;paintStars()}}},true);
+  (async()=>{try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db');if(!db)return;ckDb=db;const u=await window.claude.use('user');const own=u?await u.isOwner():false;const can=u?await u.can('data.write'):null;canW=own||can!==false;paintStars();
+    db.collection('imp').onSnapshot(snap=>{snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.stars==='number')IMP[x.id]=Math.max(0,Math.min(5,Math.round(v.stars)))});paintStars()},()=>{})}catch(_){}})();
   const EVL={"pay":"연봉","growth":"성장성","stability":"안정성","culture":"평판·문화","welfare":"복지"};
   function evtag(v){return ({"상":"good","중상":"good","중":"mid","중하":"bad","하":"bad"})[v]||"unk"}
   function render(){
     const all=D.jobs, list=onlyNew?all.filter(isNew):all, nNew=all.filter(isNew).length;
     const d={jobs:list};
     document.getElementById('asof').innerHTML='최근 업데이트: <strong>'+esc(D.updatedAt)+'</strong> (한국시간) · 공고 '+all.length+'건 · 새 공고 '+nNew+'건'+((D.updates||[]).length?' · 이전 업데이트: '+D.updates.slice(0,-1).map(u=>esc(u.at)).join(', '):'');
-    document.getElementById('daytitle').textContent=(onlyNew?'새 공고 ':'전체 공고 ')+list.length+'건 (좋은 회사·적합도 순)';
+    document.getElementById('daytitle').textContent=(onlyNew?'새 공고 ':'전체 공고 ')+list.length+'건 (마감 임박 순 · 상시는 맨 아래)';
     document.getElementById('priority').textContent=D.priority||'';
     document.getElementById('others').textContent=D.excluded||'';
     const box=document.getElementById('jobs');
