@@ -5300,7 +5300,8 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
 
   function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
   function naver(j,H0,mode){
-    const a=`${H0.lon},${H0.lat},${encodeURIComponent(H0.name+'역')},,`;
+    const P=D.partner||{lon:126.6368,lat:37.4862,name:'현대제철 인천공장'};
+    const a=`${P.lon},${P.lat},${encodeURIComponent(P.name)},,`;
     const b=`${j.lon},${j.lat},${encodeURIComponent(j.company)},,`;
     return `https://map.naver.com/p/directions/${a}/${b}/-/${mode}`;
   }
@@ -5429,7 +5430,7 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
         <div class="crow"><span class="who">찬규 자차</span><span class="min">${H0.pcar}분</span><div class="cdet"><span class="sub">${esc(H0.name)} → 인천공장 · 대중교통 ${esc(H0.ptransit)}</span></div></div>
       </div></div>`;
     miniMap(document.getElementById('map'+i),j,H0,o);
-    document.getElementById('links'+i).innerHTML=`<a href="${esc(j.url)}" target="_blank" rel="noopener">잡코리아 공고 보기</a><a href="${esc(naver(j,H0,'transit'))}" target="_blank" rel="noopener">네이버지도 대중교통 경로 (${esc(H0.name)} 출발)</a><a href="${esc(naver(j,H0,'car'))}" target="_blank" rel="noopener">네이버지도 자차 경로</a>${(j.sources||[]).map(s=>`<a href="${esc(s[1])}" target="_blank" rel="noopener">출처: ${esc(s[0])}</a>`).join('')}`;
+    document.getElementById('links'+i).innerHTML=`<a href="${esc(j.url)}" target="_blank" rel="noopener">잡코리아 공고 보기</a><a href="${esc(naver(j,H0,'transit'))}" target="_blank" rel="noopener">네이버지도 대중교통 경로 (현대제철 인천공장 → ${esc(j.company)})</a><a href="${esc(naver(j,H0,'car'))}" target="_blank" rel="noopener">네이버지도 자차 경로 (현대제철 인천공장 → ${esc(j.company)})</a>${(j.sources||[]).map(s=>`<a href="${esc(s[1])}" target="_blank" rel="noopener">출처: ${esc(s[0])}</a>`).join('')}`;
   }
   const fA=document.getElementById('fAll'),fN=document.getElementById('fNew');
   fA.addEventListener('click',()=>{onlyNew=false;fA.setAttribute('aria-pressed','true');fN.setAttribute('aria-pressed','false');render()});
