@@ -158,6 +158,13 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
 .stars.mine button.on{color:#e0a100}
 .overview th:nth-child(2),.overview td:nth-child(2){width:1%;padding-left:4px;padding-right:4px;font-size:.75rem}
 .overview .stars{gap:0}
+.appbtn{display:block;margin:2px auto 0;font-size:.68rem;line-height:1.3;padding:1px 5px;border-radius:6px;border:1px solid var(--line,#ccc);background:transparent;color:var(--muted,#777);cursor:pointer;white-space:nowrap}
+.appbtn.on{background:#2f7d4f;border-color:#2f7d4f;color:#fff}
+.appbtn:disabled{cursor:default}
+.appb{display:inline-block;margin-left:6px;font-size:.72rem;padding:1px 7px;border-radius:999px;background:#2f7d4f;color:#fff;vertical-align:middle}
+tr.appsep td{background:transparent;font-weight:700;font-size:.8rem;color:#2f7d4f;padding-top:14px;border-bottom:2px solid #2f7d4f}
+tr.approw{opacity:.82}
+details.appcard{border-left:4px solid #2f7d4f}
 .overview .stars button{font-size:.78rem;padding:1px 0}
 
 .fitbox strong{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:999px;margin-right:6px}
@@ -662,7 +669,8 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
     ]
    },
    "match": "전사 중장기 전략체계 수립과 회의체 운영이 지금 하는 과학기술 전략기획 업무와 거의 같고, 경력 3년 요건도 넉넉히 맞습니다. 자동차 부품이라는 공학 산업입니다.",
-   "lack": "상장사·대기업 사업전략, 재무제표 분석, 자동차 애프터마켓·물류 산업 경험이 없습니다. 출근이 1시간 20분 이상입니다."
+   "lack": "상장사·대기업 사업전략, 재무제표 분석, 자동차 애프터마켓·물류 산업 경험이 없습니다. 출근이 1시간 20분 이상입니다.",
+   "applied": "2026-11-15"
   },
   {
    "fit": "상",
@@ -6163,29 +6171,34 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
   function gno(j){const m=/(\d{6,})/.exec(j.url||'');return m?m[1]:String(j.company+j.title).replace(/[^\w가-힣]/g,'').slice(0,40)}
   const IMP0=(D.importance||{}),IMP={};[IMP0.js||{},IMP0.ck||{},IMP0.all||{}].forEach(o=>Object.keys(o).forEach(g=>{IMP[g]=Math.max(IMP[g]||0,o[g]||0)}));let ckDb=null,canW=false;
   function starRow(g){const v=IMP[g]||0;return `<div class="improw"><span class="stars${canW?' mine':''}">${[1,2,3,4,5].map(n=>`<button type="button" class="st${n<=v?' on':''}" data-gno="${g}" data-n="${n}" aria-label="중요도 ${n}점" ${canW?'':'disabled'}>★</button>`).join('')}</span></div>`}
-  function ckHtml(g){return starRow(g)}
+  function ckHtml(g){const j=D.jobs.find(x=>gno(x)===g);return starRow(g)+(j?appBtn(j):'')}
   function paintStars(){document.querySelectorAll('.ckcell').forEach(td=>{td.innerHTML=ckHtml(td.dataset.gno);const tr=td.closest('tr');if(tr)tr.classList.toggle('imprw',isImp(td.dataset.gno))});
     document.querySelectorAll('details.card[data-gno]').forEach(c=>{const g=c.dataset.gno,on=isImp(g);c.classList.toggle('impcard',on);const b=c.querySelector('.impb');if(b){b.hidden=!on;if(on)b.textContent='★ 중요 '+(IMP[g]||0)}})}
   function isImp(g){return (IMP[g]||0)>=4}
+  const APP={};function isApp(j){const g=gno(j);return g in APP?APP[g]:!!j.applied}
+  function appBtn(j){const on=isApp(j);return `<button type="button" class="appbtn${on?' on':''}" data-gno="${gno(j)}" aria-pressed="${on}" title="지원서를 낸 공고는 맨 아래로 모아 마감 후에도 보관합니다" ${canW?'':'disabled'}>${on?'지원함':'지원 체크'}</button>`}
+  document.addEventListener('click',async e=>{const b=e.target.closest('.appbtn');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,j=D.jobs.find(x=>gno(x)===g);if(!j)return;const v=!isApp(j);APP[g]=v;render();
+    try{await ckDb.collection('app').doc(g).set({on:v,at:new Date().toISOString()})}catch(_){}},true);
   document.addEventListener('click',async e=>{const b=e.target.closest('.stars button');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,n=+b.dataset.n;const v=(IMP[g]||0)===n?0:n;IMP[g]=v;paintStars();
     try{await ckDb.collection('imp').doc(g).set({stars:v,at:new Date().toISOString()})}catch(err){if(err&&err.code==='invalid_argument'){canW=false;paintStars()}}},true);
   (async()=>{try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db');if(!db)return;ckDb=db;const u=await window.claude.use('user');const own=u?await u.isOwner():false;const can=u?await u.can('data.write'):null;canW=own||can!==false;paintStars();
+    db.collection('app').onSnapshot(snap=>{let ch=false;snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.on==='boolean'&&APP[x.id]!==v.on){APP[x.id]=v.on;ch=true}});if(ch)render()},()=>{});render();
     db.collection('imp').onSnapshot(snap=>{snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.stars==='number')IMP[x.id]=Math.max(0,Math.min(5,Math.round(v.stars)))});paintStars()},()=>{})}catch(_){}})();
   const EVL={"pay":"연봉","growth":"성장성","stability":"안정성","culture":"평판·문화","welfare":"복지"};
   function evtag(v){return ({"상":"good","중상":"good","중":"mid","중하":"bad","하":"bad"})[v]||"unk"}
   function render(){
-    const all=D.jobs, list=onlyNew?all.filter(isNew):all, nNew=all.filter(isNew).length;
+    const all=D.jobs.filter(j=>!isApp(j)).concat(D.jobs.filter(isApp)), list=onlyNew?all.filter(j=>isNew(j)||isApp(j)):all, nNew=all.filter(isNew).length;
     const d={jobs:list};
     document.getElementById('asof').innerHTML='최근 업데이트: <strong>'+esc(D.updatedAt)+'</strong> (한국시간) · 공고 '+all.length+'건 · 새 공고 '+nNew+'건'+((D.updates||[]).length?' · 이전 업데이트: '+D.updates.slice(0,-1).map(u=>esc(u.at)).join(', '):'');
-    document.getElementById('daytitle').textContent=(onlyNew?'새 공고 ':'전체 공고 ')+list.length+'건 (마감 임박 순 · 상시는 맨 아래)';
+    document.getElementById('daytitle').textContent=(onlyNew?'새 공고 ':'전체 공고 ')+list.length+'건 (마감 임박 순 · 상시는 아래 · 지원한 공고는 맨 아래)';
     document.getElementById('priority').textContent=D.priority||'';
     document.getElementById('others').textContent=D.excluded||'';
     const box=document.getElementById('jobs');
     if(!d.jobs.length){box.innerHTML='<p class="empty">조건에 맞는 공고가 없습니다.</p>';overview(d);return}
-    box.innerHTML=d.jobs.map((j,i)=>`<details class="card" id="job${i}" data-gno="${gno(j)}" open>
+    box.innerHTML=d.jobs.map((j,i)=>`<details class="card${isApp(j)?' appcard':''}" id="job${i}" data-gno="${gno(j)}" open>
         <summary class="top" onclick="event.preventDefault()"><span class="num">${i+1}</span><div class="t">
           <div class="meta"><span class="pill ${j.fit}">적합도 ${j.fit}</span><span>${esc(j.size)}</span>${j.salary?`<span>예상 연봉 ${esc(j.salary.range)}</span>`:''}</div>
-          <h2>${esc(j.company)} · ${esc(j.title)}${isNew(j)?'<span class="newb">NEW</span>':''}<span class="impb" hidden></span></h2>
+          <h2>${esc(j.company)} · ${esc(j.title)}${isNew(j)?'<span class="newb">NEW</span>':''}${isApp(j)?`<span class="appb">지원 완료${j.applied?' '+esc(j.applied.slice(5).replace('-','/')):''}</span>`:''}<span class="impb" hidden></span></h2>
           <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span>${dueHtml(j,'마감 ')}</div>
         </div></summary>
         ${j.salary?`<div class="salary"><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">입사하면 예상 연봉 (성과급 포함 추정, ${esc(D.current||'')})</span><span class="min">${esc(j.salary.range)}원</span><span class="sub">${esc(j.salary.basis)} <a href="${esc(j.salary.src[1])}" target="_blank" rel="noopener">출처: ${esc(j.salary.src[0])}</a></span></div>`:''}
@@ -6238,7 +6251,8 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
         const tipCm='내 대중교통 '+o.transit.min+'분 ('+o.transit.transfers+')\n'+o.transit.route+'\n내 자차 '+o.car.min+'분\n찬규 자차 '+H0.pcar+'분 ('+H0.name+' → 인천공장)\n\n'+(j.homeWhy||'');
         const tipDl=j.deadline+(dueAt(j)!==null?'\n'+ddayTxt(dleft(j))+' · '+remainTxt(j):'\n마감 없음 (상시)');
         const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
-        return `<tr class="row${isNew(j)?' isnew':''}${isSoon(j)?' soonrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td data-tip="${T(tipEv)}"><div class="evals">${evs}</div></td><td class="num2" data-tip="${T(tipRt)}">${rt(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
+        const sep=isApp(j)&&(i===0||!isApp(d.jobs[i-1]))?`<tr class="appsep"><td colspan="12">내가 지원한 공고 · 마감이 지나도 여기 남겨 둡니다</td></tr>`:'';
+        return sep+`<tr class="row${isNew(j)&&!isApp(j)?' isnew':''}${isSoon(j)&&!isApp(j)?' soonrow':''}${isApp(j)?' approw':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td data-tip="${T(tipEv)}"><div class="evals">${evs}</div></td><td class="num2" data-tip="${T(tipRt)}">${rt(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
