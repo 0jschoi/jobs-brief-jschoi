@@ -188,7 +188,7 @@ details.appcard{border-left:4px solid #2f7d4f}
 <div class="wrap">
   <header>
     <h1>오늘의 브리핑(채)</h1>
-    <p class="sub" id="asof"></p>
+    <div class="sub" id="asof"></div>
     <p class="sub" id="profile"></p>
     <details class="certs"><summary>내 자격증 보기</summary><table class="chk" id="certs"></table></details>
   </header>
@@ -6189,7 +6189,7 @@ details.appcard{border-left:4px solid #2f7d4f}
   function render(){
     const all=D.jobs.filter(j=>!isApp(j)).concat(D.jobs.filter(isApp)), list=onlyNew?all.filter(j=>isNew(j)||isApp(j)):all, nNew=all.filter(isNew).length;
     const d={jobs:list};
-    document.getElementById('asof').innerHTML='최근 업데이트: <strong>'+esc(D.updatedAt)+'</strong> (한국시간) · 공고 '+all.length+'건 · 새 공고 '+nNew+'건'+((D.updates||[]).length?' · 이전 업데이트: '+D.updates.slice(0,-1).map(u=>esc(u.at)).join(', '):'');
+    document.getElementById('asof').innerHTML='최근 업데이트: <strong>'+esc(D.updatedAt)+'</strong> (한국시간) · 공고 '+all.length+'건 · 새 공고 '+nNew+'건'+((D.updates||[]).length>1?`<details class="certs"><summary>이전 업데이트 보기 (${D.updates.length-1}회)</summary><p class="sub" style="margin-top:6px">${D.updates.slice(0,-1).map(u=>esc(u.at)).reverse().join(', ')}</p></details>`:'');
     document.getElementById('daytitle').textContent=(onlyNew?'새 공고 ':'전체 공고 ')+list.length+'건 (마감 임박 순 · 상시는 아래 · 지원한 공고는 맨 아래)';
     document.getElementById('priority').textContent=D.priority||'';
     document.getElementById('others').textContent=D.excluded||'';
