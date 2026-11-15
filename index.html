@@ -6545,7 +6545,7 @@ details.badcard{opacity:.7;border-left:4px solid #999}
   const APP={},BAD={};function isApp(j){const g=gno(j);return g in APP?APP[g]:!!j.applied}
   function isBad(j){if(isApp(j))return false;const g=gno(j);return g in BAD?BAD[g]:!!j.unfit}
   function badGone(j){if(!isBad(j))return false;const n=dleft(j);return n!==null&&n<0}
-  function badBtn(j){const on=isBad(j);return `<button type="button" class="badbtn${on?' on':''}" data-gno="${gno(j)}" aria-pressed="${on}" title="맞지 않는 공고는 아래로 내리고, 마감이 지나면 목록에서 뺍니다" ${canW?'':'disabled'}>${on?'부적합':'부적합?'}</button>`}
+  function badBtn(j){const on=isBad(j);return `<button type="button" class="badbtn${on?' on':''}" data-gno="${gno(j)}" aria-pressed="${on}" title="맞지 않는 공고는 아래로 내리고, 마감이 지나면 목록에서 뺍니다" ${canW?'':'disabled'}>${on?'부적합':'부적합 체크'}</button>`}
   document.addEventListener('click',async e=>{const b=e.target.closest('.badbtn');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,j=D.jobs.find(x=>gno(x)===g);if(!j)return;const v=!isBad(j);BAD[g]=v;render();
     try{await ckDb.collection('bad').doc(g).set({on:v,at:new Date().toISOString()})}catch(_){}},true);
   function appBtn(j){const on=isApp(j);return `<button type="button" class="appbtn${on?' on':''}" data-gno="${gno(j)}" aria-pressed="${on}" title="지원서를 낸 공고는 맨 아래로 모아 마감 후에도 보관합니다" ${canW?'':'disabled'}>${on?'지원함':'지원 체크'}</button>`}
