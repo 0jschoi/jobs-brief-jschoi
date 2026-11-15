@@ -70,7 +70,7 @@ header{display:flex;flex-direction:column;gap:6px}
 .evalgrid div{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
 tr.isnew td:first-child{box-shadow:inset 3px 0 0 var(--steel)}
 .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-.overview{width:100%;border-collapse:collapse;font-size:.86rem;min-width:1180px}
+.overview{width:100%;border-collapse:collapse;font-size:.86rem;min-width:1060px}
 .overview .evals{display:flex;flex-wrap:wrap;gap:4px;min-width:150px}
 .overview th{text-align:left;font-size:.75rem;color:var(--muted);font-weight:600;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
 .overview td{padding:10px 8px;border-top:1px solid var(--line);vertical-align:top}
@@ -158,6 +158,14 @@ details.card.impcard{background:#fff7dc;border:2px solid #e0a100;box-shadow:0 0 
 .stars.mine button.on{color:#e0a100}
 .overview th:nth-child(2),.overview td:nth-child(2){width:1%;padding-left:4px;padding-right:4px;font-size:.75rem}
 .overview .stars{gap:0}
+.overview td.evcell{width:1%;white-space:nowrap}
+.evmini{display:flex;gap:2px}
+.evmini .tag{padding:1px 4px;font-size:.68rem;min-width:0}
+.rtmini{margin-top:4px;font-size:.7rem;font-family:var(--f-mono);color:var(--muted)}
+.rtmini .rg{color:#2f7d4f}.rtmini .rb{color:#b3261e}
+.colink{color:inherit;text-decoration:none;display:block}
+.overview .pill{white-space:nowrap}
+.colink:hover .co{text-decoration:underline;color:var(--line1)}
 .appbtn{display:block;margin:2px auto 0;font-size:.68rem;line-height:1.3;padding:1px 5px;border-radius:6px;border:1px solid var(--line,#ccc);background:transparent;color:var(--muted,#777);cursor:pointer;white-space:nowrap}
 .appbtn.on{background:#2f7d4f;border-color:#2f7d4f;color:#fff}
 .appbtn:disabled{cursor:default}
@@ -6509,6 +6517,7 @@ details.badcard{opacity:.7;border-left:4px solid #999}
   let onlyNew=false;
   const isNew=j=>j.added===D.updatedAt;
   function rcls(v){return v>=3.4?'good':v>=3.0?'mid':'bad'}
+  function rtMini(j){const r=j.ratings;if(!r)return '';const f=(k,n)=>r[k]?`<span class="${rcls(r[k][0])==='good'?'rg':rcls(r[k][0])==='bad'?'rb':'rm'}">${n} ${r[k][0].toFixed(1)}</span>`:'';return `<div class="rtmini">${[f('blind','블'),f('jp','잡')].filter(Boolean).join(' · ')}</div>`}
   function rt(j){const r=j.ratings;if(!r)return '-';const f=(k,n)=>r[k]?`<span class="tag ${rcls(r[k][0])}">${n} ${r[k][0].toFixed(1)}</span>`:'';return `<div class="evals">${f('blind','블라인드')}${f('jp','잡플래닛')}</div>`}
   function rtCard(j){const r=j.ratings;if(!r)return '';const row=(k,n)=>r[k]?`<div><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">${n} <span class="tag ${rcls(r[k][0])}">${r[k][0].toFixed(1)} / 5</span> <span class="sub">리뷰 ${r[k][1].toLocaleString()}개</span></span><span class="sub">${esc(r[k][2])} · <a href="${esc(r[k][3])}" target="_blank" rel="noopener">보기</a></span></div>`:'';return `<div class="sect"><h3>직원 평점 <span class="sub">(${esc(r.at)} 기준)</span></h3><div class="evalgrid">${row('blind','블라인드')}${row('jp','잡플래닛')}</div></div>`}
   function dueAt(j){const m=/(\d{1,2})\/(\d{1,2})/.exec(j.deadline||'');if(!m)return null;const hm=/(\d{1,2}):(\d{2})/.exec(j.deadline)||[0,23,59];const now=Date.now();const y=new Date(now+9*3600e3).getUTCFullYear();let t=Date.UTC(y,+m[1]-1,+m[2],+hm[1]-9,+hm[2]);if(t<now-180*864e5)t=Date.UTC(y+1,+m[1]-1,+m[2],+hm[1]-9,+hm[2]);return t}
@@ -6596,7 +6605,7 @@ details.badcard{opacity:.7;border-left:4px solid #999}
     const t=document.getElementById('overview');
     if(!d.jobs.length){t.innerHTML='';return}
     const cnt=(rows,k)=>(rows||[]).filter(r=>r[1]===k).length;
-    t.innerHTML=`<thead><tr><th>#</th><th>중요도</th><th>회사 · 포지션</th><th>주요 담당업무 (공고 원문)</th><th>회사 평가</th><th>평점<br>블라인드 · 잡플래닛</th><th>적합도</th><th>요건</th><th>강점 업무</th><th>예상 연봉</th><th>출근 (추천 동네)</th><th>마감</th></tr></thead><tbody>`+
+    t.innerHTML=`<thead><tr><th>#</th><th>중요도</th><th>회사 · 포지션</th><th>주요 담당업무 (공고 원문)</th><th>회사 평가</th><th>적합도</th><th>요건</th><th>강점 업무</th><th>예상 연봉</th><th>출근 (추천 동네)</th><th>마감</th></tr></thead><tbody>`+
       d.jobs.map((j,i)=>{const o=j.homeOpts[0],H0=D.homes[o.home];
         const bad=cnt(j.reqs,'미충족'),mid=cnt(j.reqs,'경계');
         const req=bad?`<span class="tag bad">미충족 ${bad}</span>`:(mid?`<span class="tag mid">경계 ${mid}</span>`:`<span class="tag good">모두 충족</span>`);
@@ -6611,9 +6620,9 @@ details.badcard{opacity:.7;border-left:4px solid #999}
         const tipSa=j.salary?(j.salary.range+'\n'+j.salary.basis):'';
         const tipCm='내 대중교통 '+o.transit.min+'분 ('+o.transit.transfers+')\n'+o.transit.route+'\n내 자차 '+o.car.min+'분\n찬규 자차 '+H0.pcar+'분 ('+H0.name+' → 인천공장)\n\n'+(j.homeWhy||'');
         const tipDl=j.deadline+(dueAt(j)!==null?'\n'+ddayTxt(dleft(j))+' · '+remainTxt(j):'\n마감 없음 (상시)');
-        const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}">${EVL[k]} ${esc(j.eval[k][0])}</span>`:'').join(''):'';
-        const sep=isApp(j)&&(i===0||!isApp(d.jobs[i-1]))?`<tr class="appsep"><td colspan="12">내가 지원한 공고 · 마감이 지나도 여기 남겨 둡니다</td></tr>`:(isBad(j)&&(i===0||!isBad(d.jobs[i-1]))?`<tr class="appsep badsep"><td colspan="12">부적합 표시한 공고 · 마감이 지나면 목록에서 빠집니다</td></tr>`:'');
-        return sep+`<tr class="row${isNew(j)&&!isApp(j)?' isnew':''}${isSoon(j)&&!isApp(j)?' soonrow':''}${isApp(j)?' approw':''}${isBad(j)?' badrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td data-tip="${T(tipEv)}"><div class="evals">${evs}</div></td><td class="num2" data-tip="${T(tipRt)}">${rt(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
+        const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}" aria-label="${EVL[k]} ${esc(j.eval[k][0])}">${EVL[k][0]}</span>`:'').join(''):'<span class="sub">-</span>';
+        const sep=isApp(j)&&(i===0||!isApp(d.jobs[i-1]))?`<tr class="appsep"><td colspan="11">내가 지원한 공고 · 마감이 지나도 여기 남겨 둡니다</td></tr>`:(isBad(j)&&(i===0||!isBad(d.jobs[i-1]))?`<tr class="appsep badsep"><td colspan="11">부적합 표시한 공고 · 마감이 지나면 목록에서 빠집니다</td></tr>`:'');
+        return sep+`<tr class="row${isNew(j)&&!isApp(j)?' isnew':''}${isSoon(j)&&!isApp(j)?' soonrow':''}${isApp(j)?' approw':''}${isBad(j)?' badrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><a class="colink" href="${esc(j.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><div class="co">${esc(j.company)}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></a></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td class="evcell" data-tip="${T([tipEv,tipRt].filter(Boolean).join('\n\n'))}"><div class="evmini">${evs}</div>${rtMini(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
