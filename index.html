@@ -179,6 +179,12 @@ details.appcard{border-left:4px solid #2f7d4f}
 .badbtn:disabled{cursor:default}
 .appb.badb{background:#8a8a8a}
 tr.badsep td{color:#777;border-bottom-color:#999}
+.resrow{display:flex;gap:3px;justify-content:center;margin-top:2px}
+.resbtn{font-size:.66rem;line-height:1.3;padding:1px 4px;border-radius:6px;border:1px solid var(--line,#ccc);background:transparent;color:var(--muted,#777);cursor:pointer;white-space:nowrap}
+.resbtn.on.pass{background:#1f6fb2;border-color:#1f6fb2;color:#fff}
+.resbtn.on.fail{background:#8a8a8a;border-color:#8a8a8a;color:#fff}
+.resbtn:disabled{cursor:default}
+.appb.passb{background:#1f6fb2}.appb.failb{background:#8a8a8a}
 tr.badrow{opacity:.55}
 details.badcard{opacity:.7;border-left:4px solid #999}
 .overview .stars button{font-size:.78rem;padding:1px 0}
@@ -6559,11 +6565,16 @@ details.badcard{opacity:.7;border-left:4px solid #999}
   function gno(j){const m=/(\d{6,})/.exec(j.url||'');return m?m[1]:String(j.company+j.title).replace(/[^\w가-힣]/g,'').slice(0,40)}
   const IMP0=(D.importance||{}),IMP={};[IMP0.js||{},IMP0.ck||{},IMP0.all||{}].forEach(o=>Object.keys(o).forEach(g=>{IMP[g]=Math.max(IMP[g]||0,o[g]||0)}));let ckDb=null,canW=false;
   function starRow(g){const v=IMP[g]||0;return `<div class="improw"><span class="stars${canW?' mine':''}">${[1,2,3,4,5].map(n=>`<button type="button" class="st${n<=v?' on':''}" data-gno="${g}" data-n="${n}" aria-label="중요도 ${n}점" ${canW?'':'disabled'}>★</button>`).join('')}</span></div>`}
-  function ckHtml(g){const j=D.jobs.find(x=>gno(x)===g);return starRow(g)+(j?appBtn(j)+badBtn(j):'')}
+  function ckHtml(g){const j=D.jobs.find(x=>gno(x)===g);return starRow(g)+(j?appBtn(j)+(isApp(j)?resBtn(j):badBtn(j)):'')}
   function paintStars(){document.querySelectorAll('.ckcell').forEach(td=>{td.innerHTML=ckHtml(td.dataset.gno);const tr=td.closest('tr');if(tr)tr.classList.toggle('imprw',isImp(td.dataset.gno))});
     document.querySelectorAll('details.card[data-gno]').forEach(c=>{const g=c.dataset.gno,on=isImp(g);c.classList.toggle('impcard',on);const b=c.querySelector('.impb');if(b){b.hidden=!on;if(on)b.textContent='★ 중요 '+(IMP[g]||0)}})}
   function isImp(g){return (IMP[g]||0)>=4}
-  const APP={},BAD={};function isApp(j){const g=gno(j);return g in APP?APP[g]:!!j.applied}
+  const APP={},BAD={},RES={};function resOf(j){const g=gno(j);return g in RES?RES[g]:(j.result||'')}
+  function resBtn(j){const r=resOf(j),d=canW?'':'disabled',b=(v,t)=>`<button type="button" class="resbtn ${v}${r===v?' on':''}" data-gno="${gno(j)}" data-v="${v}" aria-pressed="${r===v}" title="서류 결과를 표시합니다. 다시 누르면 지워집니다" ${d}>${t}</button>`;return `<div class="resrow">${b('pass','서류합격')}${b('fail','불합격')}</div>`}
+  function resBadge(j){const r=isApp(j)?resOf(j):'';return r==='pass'?'<span class="appb passb">서류합격</span>':r==='fail'?'<span class="appb failb">불합격</span>':''}
+  document.addEventListener('click',async e=>{const b=e.target.closest('.resbtn');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,j=D.jobs.find(x=>gno(x)===g);if(!j)return;const v=resOf(j)===b.dataset.v?'':b.dataset.v;RES[g]=v;render();
+    try{await ckDb.collection('res').doc(g).set({v:v,at:new Date().toISOString()})}catch(_){}},true);
+  function isApp(j){const g=gno(j);return g in APP?APP[g]:!!j.applied}
   function isBad(j){if(isApp(j))return false;const g=gno(j);return g in BAD?BAD[g]:!!j.unfit}
   function badGone(j){if(!isBad(j))return false;const n=dleft(j);return n!==null&&n<0}
   function badBtn(j){const on=isBad(j);return `<button type="button" class="badbtn${on?' on':''}" data-gno="${gno(j)}" aria-pressed="${on}" title="맞지 않는 공고는 아래로 내리고, 마감이 지나면 목록에서 뺍니다" ${canW?'':'disabled'}>${on?'부적합':'부적합 체크'}</button>`}
@@ -6575,6 +6586,7 @@ details.badcard{opacity:.7;border-left:4px solid #999}
   document.addEventListener('click',async e=>{const b=e.target.closest('.stars button');if(!b)return;e.stopPropagation();e.preventDefault();if(!ckDb||b.disabled)return;const g=b.dataset.gno,n=+b.dataset.n;const v=(IMP[g]||0)===n?0:n;IMP[g]=v;paintStars();
     try{await ckDb.collection('imp').doc(g).set({stars:v,at:new Date().toISOString()})}catch(err){if(err&&err.code==='invalid_argument'){canW=false;paintStars()}}},true);
   (async()=>{try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db');if(!db)return;ckDb=db;const u=await window.claude.use('user');const own=u?await u.isOwner():false;const can=u?await u.can('data.write'):null;canW=own||can!==false;paintStars();
+    db.collection('res').onSnapshot(snap=>{let ch=false;snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.v==='string'&&RES[x.id]!==v.v){RES[x.id]=v.v;ch=true}});if(ch)render()},()=>{});
     db.collection('bad').onSnapshot(snap=>{let ch=false;snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.on==='boolean'&&BAD[x.id]!==v.on){BAD[x.id]=v.on;ch=true}});if(ch)render()},()=>{});
     db.collection('app').onSnapshot(snap=>{let ch=false;snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.on==='boolean'&&APP[x.id]!==v.on){APP[x.id]=v.on;ch=true}});if(ch)render()},()=>{});render();
     db.collection('imp').onSnapshot(snap=>{snap.docs.forEach(x=>{const v=x.data();if(v&&typeof v.stars==='number')IMP[x.id]=Math.max(0,Math.min(5,Math.round(v.stars)))});paintStars()},()=>{})}catch(_){}})();
@@ -6592,7 +6604,7 @@ details.badcard{opacity:.7;border-left:4px solid #999}
     box.innerHTML=d.jobs.map((j,i)=>`<details class="card${isApp(j)?' appcard':''}${isBad(j)?' badcard':''}" id="job${i}" data-gno="${gno(j)}"${isBad(j)?'':' open'}>
         <summary class="top" onclick="event.preventDefault()"><span class="num">${i+1}</span><div class="t">
           <div class="meta"><span class="pill ${j.fit}">적합도 ${j.fit}</span><span>${esc(j.size)}</span>${j.salary?`<span>예상 연봉 ${esc(j.salary.range)}</span>`:''}</div>
-          <h2>${esc(j.company)} · ${esc(j.title)}${j.pin?'<span class="pinb">최우선</span>':''}${isNew(j)?'<span class="newb">NEW</span>':''}${isApp(j)?`<span class="appb">지원 완료${j.applied?' '+esc(j.applied.slice(5).replace('-','/')):''}</span>`:''}${isBad(j)?'<span class="appb badb">부적합</span>':''}<span class="impb" hidden></span></h2>
+          <h2>${esc(j.company)} · ${esc(j.title)}${j.pin?'<span class="pinb">최우선</span>':''}${isNew(j)?'<span class="newb">NEW</span>':''}${isApp(j)?`<span class="appb">지원 완료${j.applied?' '+esc(j.applied.slice(5).replace('-','/')):''}</span>`:''}${resBadge(j)}${isBad(j)?'<span class="appb badb">부적합</span>':''}<span class="impb" hidden></span></h2>
           <div class="meta"><span>${esc(j.exp)}</span><span>${esc(j.place)}</span>${dueHtml(j,'마감 ')}</div>
         </div></summary>
         ${j.salary?`<div class="salary"><span class="who" style="font-size:.78rem;color:var(--muted);font-weight:600">입사하면 예상 연봉 (성과급 포함 추정, ${esc(D.current||'')})</span><span class="min">${esc(j.salary.range)}원</span><span class="sub">${esc(j.salary.basis)} <a href="${esc(j.salary.src[1])}" target="_blank" rel="noopener">출처: ${esc(j.salary.src[0])}</a></span></div>`:''}
@@ -6643,7 +6655,7 @@ details.badcard{opacity:.7;border-left:4px solid #999}
         const tipDl=j.deadline+(dueAt(j)!==null?'\n'+ddayTxt(dleft(j))+' · '+remainTxt(j):'\n마감 없음 (상시)');
         const evs=j.eval?Object.keys(EVL).map(k=>j.eval[k]?`<span class="tag ${evtag(j.eval[k][0])}" aria-label="${EVL[k]} ${esc(j.eval[k][0])}">${EVL[k][0]}</span>`:'').join(''):'<span class="sub">-</span>';
         const sep=isApp(j)&&(i===0||!isApp(d.jobs[i-1]))?`<tr class="appsep"><td colspan="11">내가 지원한 공고 · 마감이 지나도 여기 남겨 둡니다</td></tr>`:(isBad(j)&&(i===0||!isBad(d.jobs[i-1]))?`<tr class="appsep badsep"><td colspan="11">부적합 표시한 공고 · 마감이 지나면 목록에서 빠집니다</td></tr>`:'');
-        return sep+`<tr class="row${isNew(j)&&!isApp(j)?' isnew':''}${isSoon(j)&&!isApp(j)?' soonrow':''}${isApp(j)?' approw':''}${isBad(j)?' badrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><a class="colink" href="${esc(j.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><div class="co">${esc(j.company)}${j.pin?'<span class="pinb">최우선</span>':''}${isNew(j)?'<span class="newb">NEW</span>':''}</div><div class="sub">${esc(j.title)}</div></a></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td class="evcell" data-tip="${T([tipEv,tipRt].filter(Boolean).join('\n\n'))}"><div class="evmini">${evs}</div>${rtMini(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
+        return sep+`<tr class="row${isNew(j)&&!isApp(j)?' isnew':''}${isSoon(j)&&!isApp(j)?' soonrow':''}${isApp(j)?' approw':''}${isBad(j)?' badrow':''}" data-i="${i}" tabindex="0"><td class="num2">${i+1}</td><td class="ckcell" data-gno="${gno(j)}">${ckHtml(gno(j))}</td><td style="min-width:170px" data-tip="${T(tipCo)}"><a class="colink" href="${esc(j.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><div class="co">${esc(j.company)}${j.pin?'<span class="pinb">최우선</span>':''}${isNew(j)?'<span class="newb">NEW</span>':''}${resBadge(j)}</div><div class="sub">${esc(j.title)}</div></a></td><td style="min-width:190px" data-tip="${T(tipDu)}">${esc(j.dutySum||'')}</td><td class="evcell" data-tip="${T([tipEv,tipRt].filter(Boolean).join('\n\n'))}"><div class="evmini">${evs}</div>${rtMini(j)}</td><td data-tip="${T(tipFit)}"><span class="pill ${j.fit}">${j.fit}</span></td><td data-tip="${T(tipRq)}">${req}</td><td class="num2" data-tip="${T(tipSt)}">${cnt(j.duties,'강점')} / ${(j.duties||[]).length}</td><td class="num2" data-tip="${T(tipSa)}">${j.salary?esc(j.salary.range):'-'}</td><td class="num2" data-tip="${T(tipCm)}">${o.transit.min}분 <span class="sub">(${esc(H0.name)})</span><div class="sub">찬규 ${H0.pcar}분</div></td><td class="due" style="white-space:nowrap" data-tip="${T(tipDl)}">${dueHtml(j)}</td></tr>`}).join('')+'</tbody>';
     t.querySelectorAll('tr.row').forEach(r=>{const go=()=>{const c=document.getElementById('job'+r.dataset.i);c.open=true;c.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})};r.addEventListener('click',go);r.addEventListener('keydown',e=>{if(e.key==='Enter')go()})});
   }
   function tagcls(t){return ({"강점":"good","충족":"good","연결 가능":"mid","경계":"mid","약함":"bad","미충족":"bad"})[t]||"unk"}
